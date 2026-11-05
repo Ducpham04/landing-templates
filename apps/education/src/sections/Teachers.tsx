@@ -1,5 +1,4 @@
 import { config } from "../config";
-import { Reveal } from "../components/shared/Reveal";
 import { SmartImage } from "../components/shared/SmartImage";
 import { Heading } from "./Heading";
 
@@ -11,10 +10,10 @@ export function Teachers() {
   return (
     <section id="giang-vien" className="py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <Heading eyebrow={teachers.eyebrow} title={teachers.title} />
+        <Heading title={teachers.title} />
         <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {teachers.items.map((t, i) => (
-            <Reveal key={t.name} delay={i * 0.08}>
+            <div key={t.name}>
               <article className="group">
                 <div className={`relative aspect-[4/5] overflow-hidden rounded-3xl border-2 border-ink ${bg[i % 4]} ${tilt[i % 4]} transition-transform duration-300 group-hover:rotate-0`}>
                   <SmartImage src={t.image} alt={t.name} maxWidth={768} sizes="(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw" className="h-full w-full object-cover mix-blend-multiply grayscale-[20%] transition duration-500 group-hover:mix-blend-normal group-hover:grayscale-0" />
@@ -23,7 +22,7 @@ export function Teachers() {
                 <p className="text-sm font-semibold text-primary">{t.role}</p>
                 <p className="mt-2 text-sm text-muted">{t.bio}</p>
               </article>
-            </Reveal>
+            </div>
           ))}
         </div>
         <p className="mt-8 text-sm text-muted">{teachers.note}</p>

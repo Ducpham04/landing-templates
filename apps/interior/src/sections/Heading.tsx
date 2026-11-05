@@ -1,18 +1,13 @@
-import { Reveal } from "../components/shared/Reveal";
-
-/** Tiêu đề kiểu tạp chí: số thứ tự (01) + nhãn + tiêu đề serif, chữ cuối in nghiêng màu nhấn */
-export function Heading({ index, eyebrow, title, light = false }: { index: string; eyebrow: string; title: string; light?: boolean }) {
+/** Tiêu đề section: vạch kẻ mảnh + tiêu đề serif; 2 chữ cuối đổi màu nhấn (không in nghiêng). */
+export function Heading({ title, light = false }: { title: string; light?: boolean }) {
   const words = title.split(" ");
   const tail = words.splice(-2).join(" ");
   return (
-    <Reveal className="grid gap-6 border-t border-current/15 pt-6 md:grid-cols-12">
-      <p className={`label md:col-span-3 ${light ? "!text-bg/60" : ""}`}>
-        <span className="text-primary">({index})</span> {eyebrow}
-      </p>
-      <h2 className="font-display text-4xl leading-[1.08] sm:text-5xl md:col-span-9 lg:text-6xl">
-        {words.join(" ")} <em className="text-primary">{tail}</em>
+    <div className="border-t border-current/15 pt-8">
+      <h2 className="font-display max-w-4xl text-4xl leading-[1.1] sm:text-5xl lg:text-[3.5rem]">
+        {words.join(" ")} <span className={light ? "text-primary-on-dark" : "text-primary"}>{tail}</span>
       </h2>
-    </Reveal>
+    </div>
   );
 }
 
@@ -20,4 +15,9 @@ export const Arrow = () => (
   <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
     <path d="M5 12h14M13 6l6 6-6 6" />
   </svg>
+);
+
+/** Dấu đầu dòng vẽ bằng CSS (không dùng ký tự unicode làm icon) */
+export const Bullet = ({ className = "bg-primary" }: { className?: string }) => (
+  <span className={`mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full ${className}`} aria-hidden />
 );

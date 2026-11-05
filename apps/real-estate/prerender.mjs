@@ -18,6 +18,13 @@ html = html.replace(/<link rel="stylesheet"[^>]*href="([^"]+\.css)"[^>]*>/g, (ta
     return tag;
   }
 });
+// Preload font chính (chữ Latin + tiếng Việt) để tránh nhảy layout (CLS) khi font tải xong
+const PRELOAD_FONTS = /\/(cormorant-garamond-(latin|vietnamese)-400-normal|be-vietnam-pro-(latin|vietnamese)-300-normal)-[^/]*\.woff2$/;
+const fonts = [...new Set([...html.matchAll(/url\(([^)]+\.woff2)\)/g)].map((m) => m[1]))].filter((u) => PRELOAD_FONTS.test(u));
+html = html.replace(
+  "<style>",
+  fonts.map((u) => `<link rel="preload" as="font" type="font/woff2" href="${u}" crossorigin />`).join("\n    ") + "\n    <style>",
+);
 writeFileSync(resolve(dist, "index.html"), html);
 rmSync(resolve(root, "dist-ssr"), { recursive: true, force: true });
 console.log("✓ prerendered dist/index.html");

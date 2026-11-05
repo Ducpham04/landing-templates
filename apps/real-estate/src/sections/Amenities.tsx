@@ -1,5 +1,4 @@
 import { config } from "../config";
-import { Reveal } from "../components/shared/Reveal";
 import { SmartImage } from "../components/shared/SmartImage";
 import { Heading } from "./Heading";
 
@@ -8,10 +7,10 @@ export function Amenities() {
   return (
     <section id="tien-ich" className="bg-surface py-24 lg:py-36">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <Heading eyebrow={amenities.eyebrow} title={amenities.title} center />
+        <Heading title={amenities.title} center />
         <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {amenities.featured.map((a, i) => (
-            <Reveal key={a.title} delay={i * 0.08}>
+            <div key={a.title}>
               <article className="group relative aspect-[3/4] overflow-hidden">
                 <SmartImage
                   src={a.image}
@@ -29,10 +28,10 @@ export function Amenities() {
                   </p>
                 </div>
               </article>
-            </Reveal>
+            </div>
           ))}
         </div>
-        <Reveal delay={0.1}>
+        <div>
           <ul className="mt-16 grid grid-cols-1 gap-x-10 sm:grid-cols-2 lg:grid-cols-4">
             {amenities.list.map((item) => (
               <li key={item} className="flex items-center gap-4 border-b border-ink/10 py-4 text-sm text-ink/80">
@@ -41,7 +40,7 @@ export function Amenities() {
               </li>
             ))}
           </ul>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

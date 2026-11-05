@@ -5,8 +5,8 @@ Bộ 3 landing page demo cho dịch vụ freelance, mỗi mẫu có phong cách 
 | Thư mục | Ngành | Phong cách | Font |
 | --- | --- | --- | --- |
 | `apps/real-estate` | Bất động sản cao cấp — *The Aurelia Residences* | Nền đen, nhấn vàng champagne, serif thanh mảnh, chữ in hoa giãn rộng | Cormorant Garamond + Be Vietnam Pro |
-| `apps/interior` | Thiết kế nội thất — *Atelier Mộc* | Kiểu tạp chí: nền vải lanh, nhấn đất nung, chữ nghiêng, đánh số (01)(02) | Playfair Display + Inter |
-| `apps/education` | Trung tâm giáo dục — *Nova Academy* | Trẻ trung: viền đậm, bóng lệch, tím indigo + xanh chanh, bo tròn | Lexend |
+| `apps/interior` | Thiết kế nội thất — *Atelier Mộc* | Kiểu tạp chí: nền vữa xám-xanh, nhấn đất nung, serif lớn, lưới bất đối xứng | Playfair Display + Inter |
+| `apps/education` | Trung tâm giáo dục — *Nova Academy* | Trẻ trung kiểu neobrutalist: viền đậm, bóng lệch, tím indigo + xanh chanh, bộ icon nét thống nhất | Lexend |
 
 **Stack:** React 19 · Vite · TypeScript · Tailwind CSS v4 · Framer Motion (LazyMotion) · Prerender (SSG) lúc build.
 
@@ -14,14 +14,14 @@ Bộ 3 landing page demo cho dịch vụ freelance, mỗi mẫu có phong cách 
 
 **Bất động sản:** hero ảnh/video toàn màn hình · tổng quan dự án · tiện ích · mặt bằng theo tab (sơ đồ minh hoạ sinh từ config hoặc ảnh bản vẽ thật) · vị trí (Google Maps, chỉ tải khi bấm) · bảng giá + chính sách · form nhận tư vấn.
 
-**Nội thất:** hero ảnh ghép · dải dịch vụ chạy ngang · portfolio dạng masonry có lọc + lightbox (phím ←/→/Esc) · quy trình 6 bước · báo giá 3 gói · testimonial tự chuyển · form liên hệ (loại công trình, diện tích, ngân sách).
+**Nội thất:** hero ảnh ghép · dải hạng mục nhận thiết kế · portfolio dạng masonry có lọc + lightbox (phím ←/→/Esc) · quy trình 6 bước · báo giá 3 gói · testimonial tự chuyển · form liên hệ (loại công trình, diện tích, ngân sách).
 
 **Giáo dục:** khoá học · lộ trình 4 chặng · giảng viên · lịch khai giảng có lọc + thanh số chỗ còn lại · testimonial · FAQ dạng accordion (kèm dữ liệu FAQPage cho Google) · form đăng ký học thử.
 
 **Dùng chung cho cả 3:**
 - Nút **Zalo / Messenger / Gọi điện** nổi ở góc phải dưới.
 - Thẻ **SEO + Open Graph + Twitter Card + JSON-LD**, `robots.txt`, `sitemap.xml` sinh tự động từ config lúc build.
-- HTML được **prerender**, nên trang hiện nội dung ngay cả trước khi JS chạy (tốt cho Lighthouse và crawler).
+- HTML được **prerender** và CSS được inline, font chính được preload, nên trang hiện nội dung ngay cả trước khi JS chạy và không nhảy layout (tốt cho Lighthouse và crawler).
 - Responsive từ 360px, hỗ trợ `prefers-reduced-motion`, có link "bỏ qua tới nội dung", điều hướng bàn phím.
 - Ảnh responsive (`srcset` tự động cho Unsplash), lazy-load, ảnh lỗi thì hiện nền gradient thay thế.
 - Testimonial, số liệu, bảng giá đều **ghi rõ là mẫu** trên giao diện.
@@ -122,13 +122,36 @@ Khi deploy vào thư mục con, ảnh trong `public/` nên ghi đường dẫn t
 
 | Mẫu | Performance | Accessibility | Best Practices | SEO |
 | --- | --- | --- | --- | --- |
-| Bất động sản | 99 | 100 | 96 | 100 |
-| Nội thất | 96 | 100 | 96 | 100 |
-| Giáo dục | 94 | 100 | 96 | 100 |
+| Bất động sản | 94 | 100 | 96 | 100 |
+| Nội thất | 98 | 100 | 96 | 100 |
+| Giáo dục | 95 | 100 | 96 | 100 |
 
 > Môi trường đo chặn truy cập images.unsplash.com nên ảnh không tải được, và lỗi ảnh trong console kéo Best Practices xuống 96. Khi dùng ảnh thật, hãy nén ảnh và đo lại.
 
 Mẹo giữ điểm ≥ 90 khi thay nội dung: ảnh hero tối đa khoảng 250KB (WebP), không nhúng thêm script bên thứ ba trong `<head>`. Nếu cần Google Analytics / Pixel, nạp chúng sau sự kiện `load`.
+
+## Kiểm tra chất lượng giao diện (impeccable)
+
+Giao diện đã được rà bằng [impeccable](https://github.com/pbakaus/impeccable) (`detect`, 62 quy tắc chống "AI slop") và sửa theo các quy tắc đó:
+
+- Bỏ nhãn kicker/eyebrow phía trên tiêu đề, bỏ đánh số section (01)(02). Riêng số thứ tự các bước quy trình thì giữ, vì thứ tự đó mang thông tin.
+- Bỏ khối số liệu kiểu "số to, nhãn nhỏ" ở hero. Số liệu được viết thành một dòng thông tin, ghi rõ "(số liệu mẫu)".
+- Bỏ emoji và ký tự unicode dùng làm icon, thay bằng bộ icon SVG nét thống nhất.
+- Bỏ marquee chạy vô hạn, nền grain `feTurbulence`, nền chấm, blob blur trang trí và card lồng card.
+- Không dùng tiêu đề serif in nghiêng, không dùng nền cream mặc định.
+- Bỏ hiệu ứng fade lặp lại ở mọi section. Mỗi trang chỉ giữ một vài chuyển động có chủ đích: hero, mặt bằng, lightbox, lộ trình, accordion.
+- Tương phản đạt WCAG AA, kể cả placeholder. Chữ chức năng tối thiểu 11px. Tiêu đề dùng `text-wrap: balance`. Có focus ring theo màu thương hiệu, số dùng `tabular-nums`.
+- Bóng lệch cứng ở template Giáo dục là **chủ ý** (hướng neobrutalist), nên detector chỉ báo dạng tư vấn.
+
+Tự kiểm tra lại sau khi đổi nội dung cho khách:
+
+```bash
+cd apps/interior && npm run build && npx vite preview --port 4302
+```
+
+```bash
+npx impeccable detect http://localhost:4302
+```
 
 ## Cấu trúc
 
@@ -143,6 +166,6 @@ apps/<mẫu>/
     ├── config.ts         # ← TOÀN BỘ NỘI DUNG
     ├── App.tsx           # thứ tự các section (xoá/đổi chỗ tại đây)
     ├── sections/         # từng section
-    ├── components/shared # FloatingContact, Reveal, SmartImage
+    ├── components/shared # FloatingContact, SmartImage (+ Icon ở Giáo dục)
     └── lib/              # gửi form, validate SĐT/email
 ```

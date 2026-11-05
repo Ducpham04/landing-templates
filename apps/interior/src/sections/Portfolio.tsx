@@ -15,7 +15,7 @@ export function Portfolio() {
   return (
     <section id="du-an" className="py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <Heading index="01" eyebrow={portfolio.eyebrow} title={portfolio.title} />
+        <Heading title={portfolio.title} />
         <div className="mt-12 flex flex-wrap gap-2" role="group" aria-label="Lọc dự án">
           {portfolio.categories.map((c) => (
             <button
@@ -96,13 +96,13 @@ function Lightbox({ items, index, setIndex }: { items: Project[]; index: number 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[70] flex flex-col bg-[#14110e]/95 text-[#f3eee6] backdrop-blur-sm"
+          className="fixed inset-0 z-[70] flex flex-col bg-[#14110e]/95 text-[#f3eee6]"
           onClick={() => setIndex(null)}
         >
           <div className="flex items-center justify-between px-5 py-4 sm:px-8" onClick={(e) => e.stopPropagation()}>
             <span className="text-sm opacity-70">{index! + 1} / {items.length}</span>
             <button ref={closeRef} onClick={() => setIndex(null)} className="rounded-full border border-white/30 px-4 py-2 text-sm hover:bg-white hover:text-black" aria-label="Đóng">
-              Đóng ✕
+              Đóng
             </button>
           </div>
           <div className="relative flex flex-1 items-center justify-center px-4 pb-4 sm:px-20" onClick={(e) => e.stopPropagation()}>
@@ -110,15 +110,15 @@ function Lightbox({ items, index, setIndex }: { items: Project[]; index: number 
               <m.figure key={p.title} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} transition={{ duration: 0.35 }} className="flex max-h-full flex-col items-center">
                 <SmartImage src={p.image} alt={p.title} maxWidth={1920} sizes="90vw" className="max-h-[75vh] w-auto max-w-full object-contain" />
                 <figcaption className="mt-4 text-center">
-                  <span className="font-display text-2xl italic">{p.title}</span>
+                  <span className="font-display text-2xl">{p.title}</span>
                   <span className="ml-3 text-sm opacity-60">{p.meta}</span>
                 </figcaption>
               </m.figure>
             </AnimatePresence>
             {items.length > 1 && (
               <>
-                <button onClick={() => go(-1)} className="absolute left-2 grid h-12 w-12 place-items-center rounded-full bg-white/10 hover:bg-white/25 sm:left-6" aria-label="Ảnh trước">‹</button>
-                <button onClick={() => go(1)} className="absolute right-2 grid h-12 w-12 place-items-center rounded-full bg-white/10 hover:bg-white/25 sm:right-6" aria-label="Ảnh sau">›</button>
+                <button onClick={() => go(-1)} className="absolute left-2 grid h-12 w-12 place-items-center rounded-full bg-white/10 hover:bg-white/25 sm:left-6" aria-label="Ảnh trước"><svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden><path d="M15 6l-6 6 6 6" /></svg></button>
+                <button onClick={() => go(1)} className="absolute right-2 grid h-12 w-12 place-items-center rounded-full bg-white/10 hover:bg-white/25 sm:right-6" aria-label="Ảnh sau"><svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden><path d="M9 6l6 6-6 6" /></svg></button>
               </>
             )}
           </div>

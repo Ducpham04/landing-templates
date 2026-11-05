@@ -1,7 +1,7 @@
 import { AnimatePresence, m } from "framer-motion";
 import { config } from "../config";
+import { Icon } from "../components/shared/Icon";
 import { useLeadForm } from "../lib/useLeadForm";
-import { Reveal } from "../components/shared/Reveal";
 
 export function TrialForm() {
   const { form, courses } = config;
@@ -11,29 +11,27 @@ export function TrialForm() {
     ["name", "phone"],
   );
   return (
-    <section id="hoc-thu" className="px-3 pb-20 sm:px-5 lg:pb-28">
-      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] border-2 border-ink bg-primary px-5 py-14 text-white sm:px-10 lg:px-16 lg:py-20">
-        <div className="dots pointer-events-none absolute inset-0 opacity-10 invert" aria-hidden />
-        <div className="relative grid gap-12 lg:grid-cols-2">
-          <Reveal>
-            <span className="chip text-ink">{form.eyebrow}</span>
-            <h2 className="mt-5 text-4xl leading-tight font-bold sm:text-5xl">{form.title}</h2>
-            <p className="mt-5 text-lg text-white/80">{form.subtitle}</p>
+    <section id="hoc-thu" className="border-y-2 border-ink bg-primary text-white">
+      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:py-24">
+        <div className="grid gap-12 lg:grid-cols-2">
+          <div>
+            <h2 className=" text-4xl leading-tight font-bold sm:text-5xl">{form.title}</h2>
+            <p className="mt-5 text-lg text-white/85">{form.subtitle}</p>
             <ul className="mt-8 grid gap-3 sm:grid-cols-2">
               {form.perks.map((p) => (
                 <li key={p} className="flex items-center gap-3 rounded-2xl bg-white/10 px-4 py-3 text-sm font-semibold">
-                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-lime text-xs font-bold text-ink">✓</span>
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-lime text-ink"><Icon name="check" className="h-3.5 w-3.5" /></span>
                   {p}
                 </li>
               ))}
             </ul>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.1} className="pop rounded-3xl bg-white p-6 text-ink sm:p-8">
+          <div className="pop rounded-3xl bg-white p-6 text-ink sm:p-8">
             <AnimatePresence mode="wait">
               {status === "success" ? (
                 <m.div key="ok" role="status" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="flex min-h-[420px] flex-col items-center justify-center text-center">
-                  <div className="text-6xl" aria-hidden>🎉</div>
+                  <div className="grid h-16 w-16 place-items-center rounded-full border-2 border-ink bg-lime" aria-hidden><Icon name="check" className="h-8 w-8" /></div>
                   <p className="font-display mt-5 text-2xl font-bold">{form.successMessage}</p>
                   <button onClick={reset} className="btn-light mt-8">Đăng ký thêm</button>
                 </m.div>
@@ -73,7 +71,7 @@ export function TrialForm() {
                 </m.form>
               )}
             </AnimatePresence>
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>

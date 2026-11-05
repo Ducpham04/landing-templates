@@ -31,7 +31,7 @@ export const config = {
     background: "#0B0C0E",
     surface: "#14161A",
     text: "#EEE7DA",
-    muted: "#9A958C",
+    muted: "#A9A397",
   },
 
   contact: {
@@ -52,7 +52,6 @@ export const config = {
   ],
 
   hero: {
-    eyebrow: "Biểu tượng sống mới bên sông",
     title: ["Nơi thượng lưu", "chọn để an cư"],
     subtitle:
       "286 căn hộ & penthouse giới hạn, thiết kế bởi kiến trúc sư quốc tế, bàn giao nội thất nhập khẩu châu Âu.",
@@ -71,7 +70,6 @@ export const config = {
   },
 
   overview: {
-    eyebrow: "Tổng quan dự án",
     title: "Kiệt tác kiến trúc giữa lòng đô thị",
     body: [
       "The Aurelia được kiến tạo như một khu nghỉ dưỡng thu nhỏ, nơi mỗi căn hộ đều sở hữu tầm nhìn trọn vẹn ra sông và đường chân trời thành phố.",
@@ -89,7 +87,6 @@ export const config = {
   },
 
   amenities: {
-    eyebrow: "Tiện ích đặc quyền",
     title: "42 tiện ích chuẩn resort",
     featured: [
       { title: "Hồ bơi vô cực tầng mái", desc: "Tràn bờ 50m, ngắm hoàng hôn trên sông", image: U("1571896349842-33c89424de2d") },
@@ -114,7 +111,6 @@ export const config = {
   },
 
   floorPlans: {
-    eyebrow: "Mặt bằng căn hộ",
     title: "Thiết kế tối ưu từng mét vuông",
     note: "Mặt bằng minh hoạ. Có thể thay bằng ảnh bản vẽ thật qua trường `image`.",
     units: [
@@ -175,7 +171,6 @@ export const config = {
   },
 
   location: {
-    eyebrow: "Vị trí kết nối",
     title: "Tâm điểm giao thương, tĩnh tại bên sông",
     /** Link nhúng Google Maps: Google Maps → Chia sẻ → Nhúng bản đồ → copy src */
     mapEmbed: "https://www.google.com/maps?q=Thu+Thiem,+Ho+Chi+Minh&z=14&output=embed",
@@ -191,7 +186,6 @@ export const config = {
   },
 
   pricing: {
-    eyebrow: "Bảng giá tham khảo",
     title: "Đầu tư vào giá trị bền vững",
     disclaimer: "* Bảng giá MẪU dùng cho demo. Giá thực tế theo chính sách bán hàng từng đợt.",
     rows: [
@@ -208,7 +202,6 @@ export const config = {
   },
 
   form: {
-    eyebrow: "Đăng ký tư vấn riêng",
     title: "Nhận bảng giá & mặt bằng chi tiết",
     subtitle: "Chuyên viên sẽ liên hệ trong vòng 15 phút (giờ hành chính) để gửi tài liệu và sắp lịch tham quan căn hộ mẫu.",
     /** Endpoint nhận dữ liệu (Formspree / Google Apps Script / webhook). Trống = demo. */

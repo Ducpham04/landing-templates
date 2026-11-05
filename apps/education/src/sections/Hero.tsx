@@ -1,36 +1,35 @@
 import { m } from "framer-motion";
 import { config } from "../config";
+import { Icon } from "../components/shared/Icon";
 import { SmartImage } from "../components/shared/SmartImage";
 
 export function Hero() {
   const { hero } = config;
   return (
     <section className="relative overflow-hidden pt-28 pb-20 lg:pt-36 lg:pb-28" aria-label="Giới thiệu">
-      <div className="dots pointer-events-none absolute inset-0 opacity-[0.07]" aria-hidden />
-      <div className="pointer-events-none absolute -top-40 -right-40 h-[520px] w-[520px] rounded-full bg-primary/15 blur-3xl" aria-hidden />
       <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-2">
         <div>
           <m.span initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="inline-block rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white">
             {hero.badge}
           </m.span>
-          <h1 className="mt-7 text-[clamp(2.6rem,6vw,4.75rem)] leading-[1.05] font-bold">
+          <h1 className="mt-7 text-[clamp(2.6rem,6vw,4.5rem)] leading-[1.05] font-bold tracking-[-0.02em]">
             {hero.titleBefore} <span className="marker">{hero.titleHighlight}</span>{" "}
             <span className="text-primary">{hero.titleAfter}</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">{hero.subtitle}</p>
           <div className="mt-9 flex flex-col gap-4 sm:flex-row">
-            <a href="#hoc-thu" className="btn-primary">{hero.ctaPrimary} →</a>
+            <a href="#hoc-thu" className="btn-primary">{hero.ctaPrimary} <Icon name="arrow" /></a>
             <a href="#khoa-hoc" className="btn-light">{hero.ctaSecondary}</a>
           </div>
-          <dl className="mt-12 flex flex-wrap gap-x-10 gap-y-4">
-            {hero.stats.map((s) => (
-              <div key={s.label}>
-                <dd className="font-display text-3xl font-bold">{s.value}</dd>
-                <dt className="text-sm text-muted">{s.label}</dt>
-              </div>
-            ))}
-          </dl>
-          <p className="mt-3 text-xs text-muted/80">* Số liệu mẫu</p>
+          <p className="mt-10 text-sm text-muted">
+            {hero.stats.map((st, i) => (
+              <span key={st.label}>
+                {i > 0 && " · "}
+                <strong className="font-display font-semibold text-ink tabular-nums">{st.value}</strong> {st.label.toLowerCase()}
+              </span>
+            ))}{" "}
+            (số liệu mẫu)
+          </p>
         </div>
 
         <div className="relative mx-auto w-full max-w-lg">

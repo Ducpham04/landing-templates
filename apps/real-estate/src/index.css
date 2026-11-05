@@ -16,6 +16,10 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 body {
   @apply bg-bg text-ink font-sans font-light antialiased;
 }
+h1, h2, h3 { text-wrap: balance; }
+p, li, dd, blockquote { text-wrap: pretty; }
+:focus-visible { outline: 2px solid var(--c-primary); outline-offset: 3px; }
+table, .tabular-nums { font-variant-numeric: tabular-nums; }
 ::selection { background: var(--c-primary); color: var(--c-background); }
 
 .gold-line { background: linear-gradient(90deg, transparent, var(--c-primary), transparent); }
@@ -23,19 +27,14 @@ body {
 
 @keyframes kenburns { from { transform: scale(1.12); } to { transform: scale(1); } }
 .kenburns { animation: kenburns 14s cubic-bezier(.2,.6,.3,1) forwards; }
-@keyframes ring { 0% { box-shadow: 0 0 0 0 rgb(255 255 255 / .35); } 100% { box-shadow: 0 0 0 16px rgb(255 255 255 / 0); } }
-.fab-ring::after { content: ""; position: absolute; inset: 0; border-radius: 9999px; animation: ring 2.4s infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .kenburns, .fab-ring::after { animation: none; }
+  .kenburns { animation: none; }
 }
 
 /* Lớp component: nằm trong layer để utility (hidden, md:flex, ...) ghi đè được */
 @layer components {
-  .eyebrow {
-    @apply text-[11px] tracking-[0.35em] uppercase text-primary font-normal;
-  }
   .btn-gold {
     @apply inline-flex items-center justify-center gap-2 bg-primary px-8 py-4 text-[12px] font-medium tracking-[0.25em] text-bg uppercase transition-colors duration-500 hover:bg-ink;
   }
@@ -43,6 +42,6 @@ body {
     @apply inline-flex items-center justify-center gap-2 border border-ink/30 px-8 py-4 text-[12px] tracking-[0.25em] text-ink uppercase transition-colors duration-500 hover:border-primary hover:text-primary;
   }
   .field {
-    @apply w-full border-0 border-b border-ink/20 bg-transparent px-0 py-3 text-ink placeholder:text-muted/70 outline-none transition-colors focus:border-primary;
+    @apply w-full border-0 border-b border-ink/20 bg-transparent px-0 py-3 text-ink placeholder:text-muted outline-none transition-colors focus:border-primary;
   }
 }

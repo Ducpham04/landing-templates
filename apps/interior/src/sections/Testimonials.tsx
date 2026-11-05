@@ -19,10 +19,10 @@ export function Testimonials() {
   return (
     <section id="danh-gia" className="bg-surface py-24 lg:py-32" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <Heading index="04" eyebrow={testimonials.eyebrow} title={testimonials.title} />
+        <Heading title={testimonials.title} />
         <div className="mt-16 grid gap-10 md:grid-cols-12">
           <div className="md:col-span-3">
-            <span className="inline-block rounded-full border border-primary/40 px-3 py-1 text-xs text-primary">{testimonials.badge}</span>
+            <span className="inline-block rounded-full border border-ink/30 px-3 py-1 text-xs text-ink">{testimonials.badge}</span>
           </div>
           <div className="md:col-span-9" aria-live="polite">
             <AnimatePresence mode="wait">

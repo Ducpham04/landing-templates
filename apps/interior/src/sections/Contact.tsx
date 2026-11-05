@@ -1,7 +1,6 @@
 import { AnimatePresence, m } from "framer-motion";
 import { config } from "../config";
 import { useLeadForm } from "../lib/useLeadForm";
-import { Reveal } from "../components/shared/Reveal";
 import { Arrow } from "./Heading";
 
 export function Contact() {
@@ -14,22 +13,21 @@ export function Contact() {
   return (
     <section id="lien-he" className="py-24 lg:py-32">
       <div className="mx-auto grid max-w-7xl gap-16 px-5 sm:px-8 lg:grid-cols-12">
-        <Reveal className="lg:col-span-5">
-          <p className="label"><span className="text-primary">(05)</span> {form.eyebrow}</p>
-          <h2 className="font-display mt-6 text-4xl leading-tight sm:text-5xl lg:text-6xl">{form.title}</h2>
+        <div className="lg:col-span-5">
+          <h2 className="font-display border-t border-ink/15 pt-8 text-4xl leading-tight sm:text-5xl lg:text-[3.5rem]">{form.title}</h2>
           <p className="mt-6 text-lg text-muted">{form.subtitle}</p>
           <dl className="mt-12 space-y-6">
             <div><dt className="label">Hotline</dt><dd className="font-display mt-1 text-3xl"><a href={`tel:${contact.phone}`} className="hover:text-primary">{contact.hotline}</a></dd></div>
             <div><dt className="label">Email</dt><dd className="mt-1"><a href={`mailto:${contact.email}`} className="hover:text-primary">{contact.email}</a></dd></div>
             <div><dt className="label">Studio</dt><dd className="mt-1">{contact.address}</dd></div>
           </dl>
-        </Reveal>
+        </div>
 
-        <Reveal delay={0.1} className="lg:col-span-7">
+        <div className="lg:col-span-7">
           <AnimatePresence mode="wait">
             {status === "success" ? (
               <m.div key="ok" role="status" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex h-full min-h-[420px] flex-col items-start justify-center bg-surface p-10">
-                <span className="font-display text-6xl text-primary italic">Cảm ơn!</span>
+                <span className="font-display text-5xl text-primary">Cảm ơn!</span>
                 <p className="mt-4 text-lg">{form.successMessage}</p>
                 <button onClick={reset} className="btn-line mt-8">Gửi yêu cầu khác</button>
               </m.div>
@@ -61,7 +59,7 @@ export function Contact() {
               </m.form>
             )}
           </AnimatePresence>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

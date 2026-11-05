@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, m } from "framer-motion";
 import { config } from "../config";
-import { Reveal } from "../components/shared/Reveal";
+import { Icon } from "../components/shared/Icon";
 import { Heading } from "./Heading";
 
 export function Schedule() {
@@ -13,14 +13,14 @@ export function Schedule() {
   return (
     <section id="lich" className="bg-surface py-20 lg:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <Heading eyebrow={schedule.eyebrow} title={schedule.title} center />
-        <Reveal className="mt-10 flex flex-wrap justify-center gap-2" role="group" aria-label="Lọc theo khoá">
+        <Heading title={schedule.title} center />
+        <div className="mt-10 flex flex-wrap justify-center gap-2" role="group" aria-label="Lọc theo khoá">
           {courses.map((c) => (
             <button key={c} aria-pressed={filter === c} onClick={() => setFilter(c)} className={`font-display rounded-full border-2 border-ink px-4 py-2 text-sm font-semibold transition ${filter === c ? "bg-ink text-white" : "bg-white hover:bg-lime"}`}>
               {c}
             </button>
           ))}
-        </Reveal>
+        </div>
         <ul className="mt-10 space-y-4">
           <AnimatePresence initial={false} mode="popLayout">
             {rows.map((c) => {
@@ -39,7 +39,7 @@ export function Schedule() {
                   <div className="text-sm">{c.time}</div>
                   <div>
                     <div className="flex justify-between text-xs">
-                      <span className={hot ? "font-bold text-coral" : "text-muted"}>{hot ? `🔥 Còn ${c.seats} chỗ` : `Còn ${c.seats}/${c.total} chỗ`}</span>
+                      <span className={hot ? "font-bold text-coral" : "text-muted"}>{hot && <Icon name="flame" className="mr-1 inline h-3.5 w-3.5 align-[-2px]" />}{hot ? `Còn ${c.seats} chỗ` : `Còn ${c.seats}/${c.total} chỗ`}</span>
                     </div>
                     <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-surface" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="Tỉ lệ đã đăng ký">
                       <div className={`h-full rounded-full ${hot ? "bg-coral" : "bg-primary"}`} style={{ width: `${pct}%` }} />

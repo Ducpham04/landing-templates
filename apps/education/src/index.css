@@ -14,7 +14,11 @@
 
 html { scroll-behavior: smooth; scroll-padding-top: 84px; }
 body { @apply bg-bg text-ink font-sans antialiased; }
-h1, h2, h3 { @apply font-display tracking-tight; }
+h1, h2, h3 { @apply font-display tracking-tight; text-wrap: balance; }
+p, li, dd, blockquote { text-wrap: pretty; }
+:focus-visible { outline: 3px solid var(--c-primary); outline-offset: 3px; }
+.tabular-nums { font-variant-numeric: tabular-nums; }
+/* Bóng lệch cứng (pop) là chủ ý: hướng thị giác neobrutalist của template này. */
 ::selection { background: var(--c-accent); color: var(--c-text); }
 
 /* Viền đậm + bóng lệch — chữ ký thị giác của template này */
@@ -25,12 +29,8 @@ h1, h2, h3 { @apply font-display tracking-tight; }
 }
 .marker { background: linear-gradient(transparent 58%, var(--c-accent) 58%, var(--c-accent) 92%, transparent 92%); padding: 0 .1em; }
 .img-fallback { background: linear-gradient(135deg, #c7d2fe, #a5b4fc 50%, #d9f99d); }
-.dots { background-image: radial-gradient(var(--c-text) 1px, transparent 1px); background-size: 18px 18px; }
-@keyframes ring { 0% { box-shadow: 0 0 0 0 rgb(79 70 229 / .35); } 100% { box-shadow: 0 0 0 16px rgb(79 70 229 / 0); } }
-.fab-ring::after { content: ""; position: absolute; inset: 0; border-radius: 9999px; animation: ring 2.4s infinite; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .fab-ring::after { animation: none; }
 }
 
 /* Lớp component: nằm trong layer để utility (hidden, md:flex, ...) ghi đè được */
@@ -41,8 +41,7 @@ h1, h2, h3 { @apply font-display tracking-tight; }
   .btn-light {
     @apply pop pop-hover inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 font-display font-semibold;
   }
-  .chip { @apply inline-flex items-center rounded-full border-2 border-ink bg-lime px-4 py-1.5 text-sm font-display font-semibold; }
   .inp {
-    @apply w-full rounded-2xl border-2 border-ink/15 bg-white px-4 py-3.5 outline-none transition placeholder:text-muted/60 focus:border-primary focus:ring-4 focus:ring-primary/15;
+    @apply w-full rounded-2xl border-2 border-ink/15 bg-white px-4 py-3.5 outline-none transition placeholder:text-muted focus:border-primary focus:ring-4 focus:ring-primary/15;
   }
 }

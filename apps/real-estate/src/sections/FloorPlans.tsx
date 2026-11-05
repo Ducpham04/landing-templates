@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, m } from "framer-motion";
 import { config } from "../config";
-import { Reveal } from "../components/shared/Reveal";
 import { SmartImage } from "../components/shared/SmartImage";
 import { Heading } from "./Heading";
 
@@ -32,8 +31,8 @@ export function FloorPlans() {
   return (
     <section id="mat-bang" className="py-24 lg:py-36">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <Heading eyebrow={floorPlans.eyebrow} title={floorPlans.title} />
-        <Reveal delay={0.1} className="mt-12 flex flex-wrap gap-2" role="tablist" aria-label="Loại căn hộ">
+        <Heading title={floorPlans.title} />
+        <div className="mt-12 flex flex-wrap gap-2" role="tablist" aria-label="Loại căn hộ">
           {floorPlans.units.map((u) => (
             <button
               key={u.id}
@@ -47,7 +46,7 @@ export function FloorPlans() {
               {u.name}
             </button>
           ))}
-        </Reveal>
+        </div>
 
         <div className="mt-10 grid gap-10 lg:grid-cols-12">
           <div className="relative aspect-square border border-ink/10 bg-surface p-6 sm:p-10 lg:col-span-7">

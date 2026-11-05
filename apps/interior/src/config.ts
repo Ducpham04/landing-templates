@@ -25,12 +25,13 @@ export const config = {
 
   /** Màu chủ đạo → CSS variables */
   theme: {
-    primary: "#97482A", // terracotta
+    primary: "#97482A", // đất nung — dùng trên nền sáng
+    primaryOnDark: "#E39A74", // đất nung sáng — dùng trên nền tối
     secondary: "#5E6148", // olive
-    background: "#F3EEE6", // linen
-    surface: "#E9E1D4",
-    text: "#231F1B",
-    muted: "#5F584F",
+    background: "#E4E6DF", // vữa xám-xanh (plaster)
+    surface: "#D6DAD0",
+    text: "#1D201C",
+    muted: "#4F554C",
   },
 
   contact: {
@@ -50,7 +51,6 @@ export const config = {
   ],
 
   hero: {
-    eyebrow: "Studio thiết kế nội thất · Est. 2014",
     titleStart: "Không gian sống",
     titleItalic: "mang dấu ấn",
     titleEnd: "của riêng bạn.",
@@ -70,7 +70,6 @@ export const config = {
   services: ["Căn hộ", "Nhà phố", "Biệt thự", "Penthouse", "Văn phòng", "Showroom", "Homestay", "Cải tạo"],
 
   portfolio: {
-    eyebrow: "Dự án tiêu biểu",
     title: "Những ngôi nhà chúng tôi đã chạm vào",
     /** Danh mục lọc (phải khớp trường category của từng dự án) */
     categories: ["Tất cả", "Căn hộ", "Nhà phố", "Biệt thự"],
@@ -87,7 +86,6 @@ export const config = {
   },
 
   process: {
-    eyebrow: "Quy trình làm việc",
     title: "6 bước, minh bạch từ ý tưởng đến bàn giao",
     steps: [
       { title: "Gặp gỡ & khảo sát", desc: "Lắng nghe nhu cầu, đo đạc hiện trạng, tư vấn phong cách và ngân sách.", time: "1–2 ngày" },
@@ -100,7 +98,6 @@ export const config = {
   },
 
   packages: {
-    eyebrow: "Báo giá theo gói",
     title: "Chọn gói phù hợp với ngôi nhà của bạn",
     note: "* Đơn giá MẪU tham khảo, chưa bao gồm VAT. Báo giá chính xác sau khảo sát.",
     plans: [
@@ -132,7 +129,6 @@ export const config = {
   },
 
   testimonials: {
-    eyebrow: "Khách hàng nói gì",
     title: "Những ngôi nhà đã có chủ",
     /** Nhận xét MẪU — thay bằng phản hồi thật (có sự đồng ý của khách) */
     badge: "Nhận xét mẫu",
@@ -144,7 +140,6 @@ export const config = {
   },
 
   form: {
-    eyebrow: "Liên hệ",
     title: "Hãy kể cho chúng tôi về ngôi nhà của bạn",
     subtitle: "Nhận tư vấn & phương án bố trí sơ bộ miễn phí trong 48 giờ.",
     endpoint: "", // Formspree / Google Apps Script / webhook. Trống = demo.

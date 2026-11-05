@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, m } from "framer-motion";
 import { config } from "../config";
+import { Icon } from "../components/shared/Icon";
 import { Heading } from "./Heading";
 
 export function Faq() {
@@ -10,7 +11,7 @@ export function Faq() {
     <section id="faq" className="pb-20 lg:pb-28">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1.6fr]">
         <div>
-          <Heading eyebrow={faq.eyebrow} title={faq.title} />
+          <Heading title={faq.title} />
           <p className="mt-5 text-muted">
             Chưa thấy câu trả lời? Gọi <a href={`tel:${config.contact.phone}`} className="font-semibold text-primary">{config.contact.hotline}</a> hoặc chat Zalo với chúng tôi.
           </p>
@@ -24,7 +25,7 @@ export function Faq() {
                 <h3>
                   <button className="font-display flex w-full items-center justify-between gap-4 px-6 py-5 text-left text-lg font-semibold" aria-expanded={isOpen} aria-controls={id} onClick={() => setOpen(isOpen ? null : i)}>
                     {f.q}
-                    <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-xl transition-transform duration-300 ${isOpen ? "rotate-45 bg-primary text-white" : "bg-lime"}`} aria-hidden>+</span>
+                    <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-xl transition-transform duration-300 ${isOpen ? "rotate-45 bg-primary text-white" : "bg-lime"}`} aria-hidden><Icon name="plus" /></span>
                   </button>
                 </h3>
                 <AnimatePresence initial={false}>

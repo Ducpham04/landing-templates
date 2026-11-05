@@ -2,6 +2,7 @@
 
 @theme inline {
   --color-primary: var(--c-primary);
+  --color-primary-on-dark: var(--c-primary-on-dark);
   --color-olive: var(--c-secondary);
   --color-bg: var(--c-background);
   --color-surface: var(--c-surface);
@@ -13,20 +14,15 @@
 
 html { scroll-behavior: smooth; scroll-padding-top: 72px; }
 body { @apply bg-bg text-ink font-sans antialiased; }
+h1, h2, h3 { text-wrap: balance; }
+p, li, dd, blockquote { text-wrap: pretty; }
+:focus-visible { outline: 2px solid var(--c-primary); outline-offset: 3px; }
+.tabular-nums { font-variant-numeric: tabular-nums; }
 ::selection { background: var(--c-primary); color: var(--c-background); }
 
-.img-fallback { background: linear-gradient(135deg, #d9cbb6, #b9a58b 60%, #8f7a62); }
-.grain::before {
-  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .06; mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-@keyframes marquee { to { transform: translateX(-50%); } }
-.marquee { animation: marquee 32s linear infinite; }
-@keyframes ring { 0% { box-shadow: 0 0 0 0 rgb(164 83 47 / .35); } 100% { box-shadow: 0 0 0 16px rgb(164 83 47 / 0); } }
-.fab-ring::after { content: ""; position: absolute; inset: 0; border-radius: 9999px; animation: ring 2.4s infinite; }
+.img-fallback { background: linear-gradient(135deg, #c9cec2, #a9b0a2 60%, #7f877a); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .marquee, .fab-ring::after { animation: none; }
 }
 
 /* Lớp component: nằm trong layer để utility (hidden, md:flex, ...) ghi đè được */
@@ -39,6 +35,6 @@ body { @apply bg-bg text-ink font-sans antialiased; }
     @apply inline-flex items-center gap-3 rounded-full border border-ink/25 px-7 py-4 text-sm font-medium transition-all duration-300 hover:border-ink hover:bg-ink hover:text-bg;
   }
   .input {
-    @apply w-full rounded-none border-0 border-b border-ink/25 bg-transparent px-0 py-3 text-base outline-none transition-colors placeholder:text-muted/60 focus:border-primary;
+    @apply w-full rounded-none border-0 border-b border-ink/25 bg-transparent px-0 py-3 text-base outline-none transition-colors placeholder:text-muted focus:border-primary;
   }
 }

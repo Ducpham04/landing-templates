@@ -52,7 +52,7 @@ export const config = {
   ],
 
   hero: {
-    badge: "🎉 Ưu đãi khai giảng tháng 12 — giảm 20% học phí",
+    badge: "Ưu đãi khai giảng tháng 12 — giảm 20% học phí",
     titleBefore: "Tự tin",
     titleHighlight: "nói tiếng Anh",
     titleAfter: "sau 6 tháng.",
@@ -74,19 +74,17 @@ export const config = {
   },
 
   courses: {
-    eyebrow: "Khoá học",
     title: "Chương trình cho từng độ tuổi & mục tiêu",
     items: [
-      { tag: "6–10 tuổi", name: "Kids English", desc: "Phát âm chuẩn, phản xạ tự nhiên qua trò chơi, dự án và kể chuyện.", duration: "3 tháng/cấp", sessions: "2 buổi/tuần", price: "2.400.000đ/tháng", color: "#D9F99D", icon: "🧸" },
-      { tag: "11–15 tuổi", name: "Teen Communication", desc: "Giao tiếp, thuyết trình, viết luận — nền tảng vững cho THCS.", duration: "4 tháng/cấp", sessions: "3 buổi/tuần", price: "2.900.000đ/tháng", color: "#FDE68A", icon: "🚀" },
-      { tag: "Mục tiêu 6.5+", name: "IELTS Intensive", desc: "Luyện 4 kỹ năng với đề thật, chấm chữa Writing/Speaking 1-1.", duration: "6 tháng", sessions: "3 buổi/tuần", price: "3.800.000đ/tháng", color: "#C7D2FE", icon: "🎯" },
-      { tag: "Người đi làm", name: "Business English", desc: "Email, họp, đàm phán và thuyết trình trong môi trường quốc tế.", duration: "3 tháng", sessions: "2 buổi/tuần (tối)", price: "3.200.000đ/tháng", color: "#FBCFE8", icon: "💼" },
+      { tag: "6–10 tuổi", name: "Kids English", desc: "Phát âm chuẩn, phản xạ tự nhiên qua trò chơi, dự án và kể chuyện.", duration: "3 tháng/cấp", sessions: "2 buổi/tuần", price: "2.400.000đ/tháng", color: "#D9F99D" },
+      { tag: "11–15 tuổi", name: "Teen Communication", desc: "Giao tiếp, thuyết trình, viết luận — nền tảng vững cho THCS.", duration: "4 tháng/cấp", sessions: "3 buổi/tuần", price: "2.900.000đ/tháng", color: "#FDE68A" },
+      { tag: "Mục tiêu 6.5+", name: "IELTS Intensive", desc: "Luyện 4 kỹ năng với đề thật, chấm chữa Writing/Speaking 1-1.", duration: "6 tháng", sessions: "3 buổi/tuần", price: "3.800.000đ/tháng", color: "#C7D2FE" },
+      { tag: "Người đi làm", name: "Business English", desc: "Email, họp, đàm phán và thuyết trình trong môi trường quốc tế.", duration: "3 tháng", sessions: "2 buổi/tuần (tối)", price: "3.200.000đ/tháng", color: "#FBCFE8" },
     ],
     note: "* Học phí MẪU tham khảo.",
   },
 
   roadmap: {
-    eyebrow: "Lộ trình học",
     title: "Từ mất gốc đến IELTS 7.0+ trong 4 chặng",
     steps: [
       { level: "Chặng 1", name: "Foundation", target: "A1 → A2", duration: "3 tháng", points: ["Phát âm IPA chuẩn", "1.000 từ vựng cốt lõi", "Ngữ pháp nền tảng"] },
@@ -97,7 +95,6 @@ export const config = {
   },
 
   teachers: {
-    eyebrow: "Đội ngũ giảng viên",
     title: "Người truyền cảm hứng, không chỉ dạy chữ",
     note: "* Hồ sơ giảng viên MẪU.",
     items: [
@@ -109,7 +106,6 @@ export const config = {
   },
 
   schedule: {
-    eyebrow: "Lịch khai giảng",
     title: "Các lớp sắp khai giảng",
     note: "* Lịch MẪU. Cập nhật lịch thật trong config.",
     /** seats: số chỗ còn lại; total: sĩ số tối đa */
@@ -123,7 +119,6 @@ export const config = {
   },
 
   testimonials: {
-    eyebrow: "Phụ huynh & học viên",
     title: "Những câu chuyện tiến bộ",
     badge: "Nhận xét mẫu",
     items: [
@@ -134,7 +129,6 @@ export const config = {
   },
 
   faq: {
-    eyebrow: "Câu hỏi thường gặp",
     title: "Bạn còn băn khoăn?",
     items: [
       { q: "Học thử miễn phí gồm những gì?", a: "Bạn được kiểm tra trình độ 4 kỹ năng, học thử 2 buổi tại lớp phù hợp và nhận tư vấn lộ trình cá nhân — hoàn toàn miễn phí, không ràng buộc." },
@@ -147,7 +141,6 @@ export const config = {
   },
 
   form: {
-    eyebrow: "Đăng ký học thử",
     title: "Nhận 2 buổi học thử & test trình độ miễn phí",
     subtitle: "Để lại thông tin, tư vấn viên sẽ gọi lại trong 30 phút để xếp lịch phù hợp.",
     endpoint: "", // Formspree / Google Apps Script / webhook. Trống = demo.

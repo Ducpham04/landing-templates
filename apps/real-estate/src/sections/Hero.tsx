@@ -27,10 +27,9 @@ export function Hero() {
       </div>
 
       <div className="relative mx-auto w-full max-w-7xl px-5 pt-40 pb-10 sm:px-8 lg:pb-14">
-        <p className="eyebrow">{hero.eyebrow}</p>
-        <h1 className="font-display mt-6 text-[clamp(3rem,9vw,7.5rem)] leading-[0.95] font-normal">
+        <h1 className="font-display text-[clamp(3rem,8vw,6rem)] leading-[0.98] font-normal tracking-[-0.02em]">
           {hero.title.map((line, i) => (
-            <span key={i} className={`block ${i === 1 ? "text-primary italic" : ""}`}>
+            <span key={i} className={`block ${i === 1 ? "text-primary" : ""}`}>
               {line}
             </span>
           ))}
@@ -49,21 +48,15 @@ export function Hero() {
           <a href="#tong-quan" className="btn-ghost">{hero.ctaSecondary}</a>
         </m.div>
 
-        <div className="mt-16 grid grid-cols-2 border-t border-ink/15 md:grid-cols-4">
-          {hero.stats.map((s, i) => (
-            <m.div
-              key={s.label}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 + i * 0.1 }}
-              className={`py-6 ${i % 2 === 1 ? "pl-6 md:pl-8" : "md:pl-8"} ${i === 0 ? "md:!pl-0" : ""} ${i > 0 ? "md:border-l md:border-ink/15" : ""}`}
-            >
-              <div className="font-display text-3xl text-primary sm:text-4xl">{s.value}</div>
-              <div className="mt-1 text-[11px] tracking-[0.2em] text-muted uppercase">{s.label}</div>
-            </m.div>
+        {/* Thông số dự án viết thành một dòng thông tin, không phải dãy "số to – nhãn nhỏ" */}
+        <ul className="mt-16 flex flex-wrap gap-x-8 gap-y-3 border-t border-ink/15 pt-6 text-sm text-ink/85">
+          {hero.stats.map((s) => (
+            <li key={s.label}>
+              <span className="text-primary tabular-nums">{s.value}</span> {s.label.toLowerCase()}
+            </li>
           ))}
-        </div>
-        <p className="text-[10px] tracking-widest text-muted/70 uppercase">* Số liệu mẫu</p>
+          <li className="text-muted">(số liệu mẫu)</li>
+        </ul>
       </div>
     </section>
   );

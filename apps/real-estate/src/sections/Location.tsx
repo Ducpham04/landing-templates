@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { config } from "../config";
-import { Reveal } from "../components/shared/Reveal";
 import { Heading } from "./Heading";
 
 export function Location() {
@@ -11,8 +10,8 @@ export function Location() {
     <section id="vi-tri" className="bg-surface py-24 lg:py-36">
       <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <Heading eyebrow={location.eyebrow} title={location.title} />
-          <Reveal delay={0.1}>
+          <Heading title={location.title} />
+          <div>
             <ul className="mt-10">
               {location.distances.map((d) => (
                 <li key={d.place} className="flex items-baseline justify-between gap-4 border-b border-ink/10 py-4">
@@ -22,9 +21,9 @@ export function Location() {
               ))}
             </ul>
             <p className="mt-4 text-xs text-muted">* Thời gian di chuyển mẫu, tham khảo.</p>
-          </Reveal>
+          </div>
         </div>
-        <Reveal delay={0.15} className="relative min-h-[380px] overflow-hidden border border-ink/10 lg:col-span-7">
+        <div className="relative min-h-[380px] overflow-hidden border border-ink/10 lg:col-span-7">
           {loadMap ? (
             <iframe
               title={`Bản đồ vị trí ${config.site.name}`}
@@ -59,7 +58,7 @@ export function Location() {
               </span>
             </button>
           )}
-        </Reveal>
+        </div>
       </div>
     </section>
   );

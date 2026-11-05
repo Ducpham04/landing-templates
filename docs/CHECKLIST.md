@@ -22,17 +22,17 @@
 - [x] OpenAPI (springdoc)
 
 ## 2. Frontend admin — luồng chính
-- [ ] Khung Vite + TS + Tailwind + Router + React Query + RHF + Zod
-- [ ] API client + tự refresh token + lưu phiên
-- [ ] Đăng nhập (kèm hộp tài khoản demo)
-- [ ] Layout: sidebar desktop / tab bar mobile, phân quyền menu
-- [ ] Danh sách lead: lọc, tìm, phân trang, đồng bộ URL, nút gọi/Zalo
-- [ ] Chi tiết lead: trạng thái, giao/nhận, ghi chú, lịch sử
-- [ ] Tổng quan (dashboard + biểu đồ)
-- [ ] Landing (sites) — ADMIN
-- [ ] Nhân viên (users) — ADMIN
+- [x] Khung Vite + TS + Tailwind + Router + React Query + RHF + Zod
+- [x] API client + tự refresh token + lưu phiên
+- [x] Đăng nhập (kèm hộp tài khoản demo)
+- [x] Layout: sidebar desktop / tab bar mobile, phân quyền menu
+- [x] Danh sách lead: lọc, tìm, phân trang, đồng bộ URL, nút gọi/Zalo
+- [x] Chi tiết lead: trạng thái, giao/nhận, ghi chú, lịch sử
+- [x] Tổng quan (dashboard + biểu đồ)
+- [x] Landing (sites) — ADMIN
+- [x] Nhân viên (users) — ADMIN
 - [x] Xuất CSV
-- [ ] Trạng thái loading / rỗng / lỗi / 404
+- [x] Trạng thái loading / rỗng / lỗi / 404
 
 ## 3. Tích hợp landing
 - [ ] `VITE_LEAD_ENDPOINT` cho 3 landing, gửi kèm UTM

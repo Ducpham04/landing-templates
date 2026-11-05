@@ -1,0 +1,19 @@
+{
+  "name": "landing-templates",
+  "private": true,
+  "version": "1.0.0",
+  "description": "3 landing page templates cao cấp (BĐS, nội thất, giáo dục) — React + Vite + TS + Tailwind + Framer Motion",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:real-estate": "npm run dev -w apps/real-estate",
+    "dev:interior": "npm run dev -w apps/interior",
+    "dev:education": "npm run dev -w apps/education",
+    "build": "npm run build --workspaces",
+    "build:real-estate": "npm run build -w apps/real-estate",
+    "build:interior": "npm run build -w apps/interior",
+    "build:education": "npm run build -w apps/education",
+    "typecheck": "npm run typecheck --workspaces"
+  }
+}

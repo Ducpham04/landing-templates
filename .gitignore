@@ -5,3 +5,6 @@ dist
 .vite
 lighthouse-*
 dist-ssr
+.env
+apps/admin/test-results
+apps/admin/playwright-report

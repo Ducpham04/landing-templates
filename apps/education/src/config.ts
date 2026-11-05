@@ -143,7 +143,7 @@ export const config = {
   form: {
     title: "Nhận 2 buổi học thử & test trình độ miễn phí",
     subtitle: "Để lại thông tin, tư vấn viên sẽ gọi lại trong 30 phút để xếp lịch phù hợp.",
-    endpoint: "", // Formspree / Google Apps Script / webhook. Trống = demo.
+    endpoint: import.meta.env?.VITE_LEAD_ENDPOINT ?? "", // VITE_LEAD_ENDPOINT (LeadHub) / Formspree / Apps Script / webhook. Trống = demo.
     ageOptions: ["6–10 tuổi", "11–15 tuổi", "16–18 tuổi", "Người đi làm"],
     timeOptions: ["Sáng cuối tuần", "Chiều cuối tuần", "Tối ngày thường", "Linh hoạt"],
     perks: ["Kiểm tra trình độ 4 kỹ năng", "2 buổi học thử tại lớp thật", "Lộ trình cá nhân hoá", "Tặng bộ tài liệu khởi động"],

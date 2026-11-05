@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+**/dist-ssr
+backend/target
+.git
+docs
+**/*.log
+apps/admin/test-results
+apps/admin/playwright-report

@@ -142,7 +142,7 @@ export const config = {
   form: {
     title: "Hãy kể cho chúng tôi về ngôi nhà của bạn",
     subtitle: "Nhận tư vấn & phương án bố trí sơ bộ miễn phí trong 48 giờ.",
-    endpoint: "", // Formspree / Google Apps Script / webhook. Trống = demo.
+    endpoint: import.meta.env?.VITE_LEAD_ENDPOINT ?? "", // VITE_LEAD_ENDPOINT (LeadHub) / Formspree / Apps Script / webhook. Trống = demo.
     typeOptions: ["Căn hộ", "Nhà phố", "Biệt thự", "Văn phòng", "Khác"],
     budgetOptions: ["Dưới 300 triệu", "300 – 700 triệu", "700 triệu – 1,5 tỷ", "Trên 1,5 tỷ"],
     submitLabel: "Gửi yêu cầu",

@@ -205,7 +205,7 @@ export const config = {
     title: "Nhận bảng giá & mặt bằng chi tiết",
     subtitle: "Chuyên viên sẽ liên hệ trong vòng 15 phút (giờ hành chính) để gửi tài liệu và sắp lịch tham quan căn hộ mẫu.",
     /** Endpoint nhận dữ liệu (Formspree / Google Apps Script / webhook). Trống = demo. */
-    endpoint: "",
+    endpoint: import.meta.env?.VITE_LEAD_ENDPOINT ?? "", // VITE_LEAD_ENDPOINT (LeadHub) / Formspree / Apps Script / webhook. Trống = demo.
     interestOptions: ["Căn 2 phòng ngủ", "Căn 3 phòng ngủ", "Duplex", "Penthouse", "Chưa xác định"],
     submitLabel: "Gửi đăng ký",
     successMessage: "Cảm ơn quý khách! Chuyên viên tư vấn sẽ liên hệ trong thời gian sớm nhất.",

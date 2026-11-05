@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: leadhub
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/leadhub?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC}
+    username: ${DB_USERNAME:leadhub}
+    password: ${DB_PASSWORD:leadhub}
+    hikari:
+      maximum-pool-size: 10
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        default_batch_fetch_size: 50
+  flyway:
+    enabled: true
+  jackson:
+    default-property-inclusion: non_null
+    deserialization:
+      fail-on-unknown-properties: false
+
+server:
+  port: ${PORT:8080}
+  forward-headers-strategy: native
+  error:
+    include-message: never
+    include-stacktrace: never
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+app:
+  jwt:
+    # Bắt buộc >= 32 ký tự. Production: đặt qua biến môi trường JWT_SECRET
+    secret: ${JWT_SECRET:dev-only-secret-change-me-please-0123456789abcdef}
+    access-ttl: ${JWT_ACCESS_TTL:PT15M}
+    refresh-ttl: ${JWT_REFRESH_TTL:P7D}
+  cors:
+    # Origin được phép gọi /api/public/** (landing). "*" = mọi origin
+    public-origins: ${APP_CORS_PUBLIC_ORIGINS:*}
+    # Origin admin khi chạy khác cổng (dev). Trống = chỉ cùng origin
+    admin-origins: ${APP_CORS_ADMIN_ORIGINS:}
+  rate-limit:
+    public-leads-per-minute: ${APP_RATE_LIMIT_LEADS:10}
+    login-per-minute: ${APP_RATE_LIMIT_LOGIN:10}
+  seed:
+    demo: ${APP_SEED_DEMO:false}

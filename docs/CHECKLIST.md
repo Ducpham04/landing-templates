@@ -7,19 +7,19 @@
 - [x] Nhánh `feature/mvp` + Draft PR
 
 ## 1. Backend — luồng chính
-- [ ] Khung Spring Boot 3.5 / Java 21, Maven, cấu hình theo profile, Docker
-- [ ] Flyway V1: schema users, refresh_tokens, sites, leads, lead_notes, lead_activities
-- [ ] Xử lý lỗi thống nhất (GlobalExceptionHandler, ApiError tiếng Việt)
-- [ ] Auth: login, refresh (rotation), logout, me — JWT + BCrypt
-- [ ] Public API nhận lead: validate, honeypot, rate limit, CORS
-- [ ] Leads: danh sách + lọc + phân trang, chi tiết, đổi trạng thái, giao/nhận, phạm vi SALES
-- [ ] Ghi chú + lịch sử hoạt động
-- [ ] Dashboard stats
-- [ ] Sites CRUD + regenerate key
-- [ ] Users CRUD + khoá/mở
-- [ ] Xuất CSV (UTF-8 BOM, chống CSV injection)
-- [ ] Seed demo tiếng Việt + tài khoản demo
-- [ ] OpenAPI (springdoc)
+- [x] Khung Spring Boot 3.5 / Java 21, Maven, cấu hình theo profile, Docker
+- [x] Flyway V1: schema users, refresh_tokens, sites, leads, lead_notes, lead_activities
+- [x] Xử lý lỗi thống nhất (GlobalExceptionHandler, ApiError tiếng Việt)
+- [x] Auth: login, refresh (rotation), logout, me — JWT + BCrypt
+- [x] Public API nhận lead: validate, honeypot, rate limit, CORS
+- [x] Leads: danh sách + lọc + phân trang, chi tiết, đổi trạng thái, giao/nhận, phạm vi SALES
+- [x] Ghi chú + lịch sử hoạt động
+- [x] Dashboard stats
+- [x] Sites CRUD + regenerate key
+- [x] Users CRUD + khoá/mở
+- [x] Xuất CSV (UTF-8 BOM, chống CSV injection)
+- [x] Seed demo tiếng Việt + tài khoản demo
+- [x] OpenAPI (springdoc)
 
 ## 2. Frontend admin — luồng chính
 - [ ] Khung Vite + TS + Tailwind + Router + React Query + RHF + Zod
@@ -31,14 +31,14 @@
 - [ ] Tổng quan (dashboard + biểu đồ)
 - [ ] Landing (sites) — ADMIN
 - [ ] Nhân viên (users) — ADMIN
-- [ ] Xuất CSV
+- [x] Xuất CSV
 - [ ] Trạng thái loading / rỗng / lỗi / 404
 
 ## 3. Tích hợp landing
 - [ ] `VITE_LEAD_ENDPOINT` cho 3 landing, gửi kèm UTM
 
 ## 4. DevOps
-- [ ] Dockerfile backend, Dockerfile frontend (nginx)
+- [x] Dockerfile backend, Dockerfile frontend (nginx)
 - [ ] docker-compose.yml chạy toàn bộ bằng 1 lệnh, .env.example
 - [ ] GitHub Actions: build + test backend, build + test frontend, e2e
 

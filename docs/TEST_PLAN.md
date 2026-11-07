@@ -66,3 +66,4 @@ Dữ liệu test: seeder demo (`APP_SEED_DEMO=true`) tạo 4 tài khoản, 3 lan
 | Frontend unit | **5/5 pass** |
 | E2E Playwright trên docker compose (desktop + mobile) | **4/4 pass** |
 | `docker compose up` | 6/6 service healthy (mysql, backend, admin, 3 landing) |
+| GitHub Actions CI | backend ✅, frontend ✅, e2e trên docker compose ✅ |

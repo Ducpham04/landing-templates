@@ -24,6 +24,7 @@ Gói **"Landing page + CRM mini"**: khách điền form trên landing, lead về
 | E2E Playwright trên `docker compose` (desktop + Pixel 7) | **4/4 pass**: landing → admin → nhận → đổi trạng thái → ghi chú → admin thấy kết quả; phân quyền; đăng nhập sai; nút Gọi/Zalo trên mobile |
 | `docker compose up` từ DB trống | 6/6 service healthy |
 | `npm run build` (admin + 3 landing) | pass |
+| **GitHub Actions** (run [#42396493164](https://github.com/Ducpham04/landing-templates/actions/runs/42396493164)) | Backend ✅ · Frontend ✅ · E2E trên `docker compose` build từ Dockerfile của repo ✅ |
 
 ### Review (chi tiết `docs/REVIEW.md`)
 Đã sửa: chặn secret JWT mặc định ở production; tài khoản bị khoá mất quyền ngay (không chờ token hết hạn); honeypot ở landing; từ chối body chunked ở API public; `leadCount` trả sai khi sửa landing.
@@ -43,9 +44,8 @@ Gói **"Landing page + CRM mini"**: khách điền form trên landing, lead về
 2. **Rate limit trong bộ nhớ**: chỉ đúng khi chạy 1 instance. Phía sau reverse proxy cần cấu hình `X-Forwarded-For` đúng.
 3. **Chưa phát hiện tái sử dụng refresh token** (thu hồi cả chuỗi). Token cũ vẫn đã bị thu hồi khi xoay.
 4. **Swagger mở mặc định**: tắt bằng biến môi trường (README).
-5. **CI chưa chạy xong lần nào trên GitHub tại thời điểm viết.** Các bước trong `ci.yml` đã chạy tay trong sandbox và đều pass, nhưng xem kết quả trên PR để chắc chắn.
-6. **Sandbox**: muốn build image trong môi trường có proxy chặn TLS phải nạp CA (D17). Máy và CI thông thường không cần.
-7. Ảnh Unsplash ở landing không tải được trong sandbox nên ảnh chụp kiểm tra chỉ có nền thay thế; trên Internet thật ảnh hiển thị bình thường.
+5. **Sandbox**: muốn build image trong môi trường có proxy chặn TLS phải nạp CA (D17). Máy và CI thông thường không cần.
+6. Ảnh Unsplash ở landing không tải được trong sandbox nên ảnh chụp kiểm tra chỉ có nền thay thế; trên Internet thật ảnh hiển thị bình thường.
 
 ## 4. Rủi ro
 | Rủi ro | Mức | Giảm thiểu |

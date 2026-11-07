@@ -16,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private final JwtService jwtService;
+  private final UserStatusCache userStatus;
 
   @Override
   protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
@@ -24,6 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     if (header != null && header.startsWith("Bearer ")) {
       jwtService
           .parse(header.substring(7).trim())
+          .filter(userStatus::isValid) // tài khoản bị khoá / đổi vai trò → token cũ mất hiệu lực
           .ifPresent(
               p -> {
                 var auth = new UsernamePasswordAuthenticationToken(p, null, p.authorities());

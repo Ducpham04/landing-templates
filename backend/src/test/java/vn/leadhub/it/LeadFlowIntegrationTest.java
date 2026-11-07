@@ -166,6 +166,13 @@ class LeadFlowIntegrationTest extends IntegrationTestBase {
             .content("{\"name\":\"A\",\"phone\":\"0912345678\"}"))
         .andExpect(status().isNotFound());
 
+    // Sửa landing trả đúng số lead hiện có
+    long novaId = read(mvc.perform(get("/api/sites").header("Authorization", a)).andReturn().getResponse().getContentAsString())
+        .findValues("id").stream().map(n -> n.asLong()).filter(i -> i == 3L).findFirst().orElseThrow();
+    mvc.perform(put("/api/sites/{id}", novaId).header("Authorization", a).contentType(MediaType.APPLICATION_JSON)
+            .content("{\"name\":\"Nova Academy\",\"domain\":\"nova-academy-demo.example.com\",\"active\":true}"))
+        .andExpect(status().isOk()).andExpect(jsonPath("$.leadCount", greaterThan(0)));
+
     mvc.perform(post("/api/sites").header("Authorization", a).contentType(MediaType.APPLICATION_JSON).content("{\"name\":\"\",\"domain\":\"bad domain!\"}"))
         .andExpect(status().isBadRequest()).andExpect(jsonPath("$.fieldErrors.name").exists()).andExpect(jsonPath("$.fieldErrors.domain").exists());
 

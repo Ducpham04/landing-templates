@@ -84,4 +84,19 @@ class AuthIntegrationTest extends IntegrationTestBase {
     // SALES đọc được danh sách landing nhưng không thấy siteKey
     mvc.perform(get("/api/sites").header("Authorization", s)).andExpect(status().isOk()).andExpect(jsonPath("$[0].siteKey").doesNotExist());
   }
+
+  @Test
+  void lockingUserInvalidatesExistingAccessTokenImmediately() throws Exception {
+    String a = admin();
+    var created = read(mvc.perform(post("/api/users").header("Authorization", a).contentType(MediaType.APPLICATION_JSON)
+            .content("{\"fullName\":\"Tạm Thời\",\"email\":\"tam.thoi@leadhub.vn\",\"role\":\"SALES\",\"password\":\"Matkhau@1\"}"))
+        .andExpect(status().isCreated()).andReturn().getResponse().getContentAsString());
+    String token = login("tam.thoi@leadhub.vn", "Matkhau@1");
+    mvc.perform(get("/api/leads").header("Authorization", token)).andExpect(status().isOk());
+
+    mvc.perform(put("/api/users/{id}", created.get("id").asLong()).header("Authorization", a).contentType(MediaType.APPLICATION_JSON)
+            .content("{\"fullName\":\"Tạm Thời\",\"role\":\"SALES\",\"active\":false}"))
+        .andExpect(status().isOk());
+    mvc.perform(get("/api/leads").header("Authorization", token)).andExpect(status().isUnauthorized());
+  }
 }

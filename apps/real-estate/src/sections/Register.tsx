@@ -6,7 +6,7 @@ import { SmartImage } from "../components/shared/SmartImage";
 export function Register() {
   const { form } = config;
   const { values, errors, status, set, onSubmit, reset } = useLeadForm(
-    { name: "", phone: "", email: "", interest: "", message: "" },
+    { name: "", phone: "", email: "", interest: "", message: "", website: "" },
     form.endpoint,
     ["name", "phone"],
   );
@@ -38,6 +38,8 @@ export function Register() {
               </m.div>
             ) : (
               <m.form key="form" onSubmit={onSubmit} noValidate initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6">
+                {/* Honeypot chống bot: người dùng thật không thấy ô này; backend bỏ qua lead nếu có giá trị */}
+                <input type="text" name="website" value={values.website} onChange={set("website")} tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute -left-[9999px] h-px w-px opacity-0" />
                 <Field label="Họ và tên *" error={errors.name}>
                   <input className="field" autoComplete="name" value={values.name} onChange={set("name")} placeholder="Nguyễn Văn A" />
                 </Field>

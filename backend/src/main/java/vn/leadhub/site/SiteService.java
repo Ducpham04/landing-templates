@@ -38,14 +38,14 @@ public class SiteService {
     s.setName(req.name().trim());
     s.setDomain(blankToNull(req.domain()));
     s.setActive(req.active());
-    return toDto(s, 0, true);
+    return toDto(s, sites.countLeads(id), true);
   }
 
   @Transactional
   public SiteDto regenerateKey(Long id) {
     Site s = find(id);
     s.setSiteKey(newKey());
-    return toDto(s, 0, true);
+    return toDto(s, sites.countLeads(id), true);
   }
 
   private Site find(Long id) {

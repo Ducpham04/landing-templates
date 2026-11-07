@@ -6,7 +6,7 @@ import { Arrow } from "./Heading";
 export function Contact() {
   const { form, contact } = config;
   const { values, errors, status, set, onSubmit, reset } = useLeadForm(
-    { name: "", phone: "", email: "", type: "", area: "", budget: "", message: "" },
+    { name: "", phone: "", email: "", type: "", area: "", budget: "", message: "", website: "" },
     form.endpoint,
     ["name", "phone"],
   );
@@ -33,6 +33,8 @@ export function Contact() {
               </m.div>
             ) : (
               <m.form key="f" onSubmit={onSubmit} noValidate initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="grid gap-x-8 gap-y-8 sm:grid-cols-2">
+                {/* Honeypot chống bot: người dùng thật không thấy ô này; backend bỏ qua lead nếu có giá trị */}
+                <input type="text" name="website" value={values.website} onChange={set("website")} tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute -left-[9999px] h-px w-px opacity-0" />
                 <F label="Họ và tên *" error={errors.name}><input className="input" autoComplete="name" value={values.name} onChange={set("name")} /></F>
                 <F label="Số điện thoại *" error={errors.phone}><input className="input" type="tel" inputMode="tel" autoComplete="tel" value={values.phone} onChange={set("phone")} /></F>
                 <F label="Email" error={errors.email}><input className="input" type="email" autoComplete="email" value={values.email} onChange={set("email")} /></F>

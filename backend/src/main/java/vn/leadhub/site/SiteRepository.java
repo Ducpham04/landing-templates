@@ -10,6 +10,9 @@ public interface SiteRepository extends JpaRepository<Site, Long> {
 
   List<Site> findAllByOrderByNameAsc();
 
+  @Query("select count(l) from Lead l where l.site.id = :siteId")
+  long countLeads(Long siteId);
+
   /** Số lead theo site: [siteId, count] */
   @Query("select l.site.id, count(l) from Lead l group by l.site.id")
   List<Object[]> countLeadsBySite();

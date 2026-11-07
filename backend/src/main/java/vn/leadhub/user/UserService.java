@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.leadhub.common.AppException;
+import vn.leadhub.security.UserStatusCache;
 import vn.leadhub.user.UserDtos.*;
 
 @Service
@@ -14,6 +15,7 @@ public class UserService {
   private final UserRepository users;
   private final UserMapper mapper;
   private final PasswordEncoder passwordEncoder;
+  private final UserStatusCache userStatus;
 
   @Transactional(readOnly = true)
   public List<UserDto> list() {
@@ -51,6 +53,7 @@ public class UserService {
     u.setFullName(req.fullName().trim());
     u.setRole(req.role());
     u.setActive(req.active());
+    userStatus.evict(u.getId());
     return mapper.toDto(u);
   }
 }

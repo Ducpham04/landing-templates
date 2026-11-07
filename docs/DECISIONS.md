@@ -18,3 +18,6 @@ Các điểm chưa rõ trong yêu cầu, phương án đã chọn và lý do.
 | D12 | Admin gọi API | Nginx của admin proxy `/api` → backend (cùng origin); khi dev dùng Vite proxy | Không cần CORS cho API nội bộ, giảm bề mặt tấn công |
 | D13 | Docker 29 trong môi trường dev | Chạy dockerd local; nếu Testcontainers 1.21 báo API version quá cũ thì đặt `DOCKER_MIN_API_VERSION` cho daemon / `api.version` cho docker-java | Docker 29 nâng API tối thiểu; GitHub Actions runner không bị ảnh hưởng |
 | D14 | Múi giờ | Lưu UTC (`DATETIME` + JVM UTC), hiển thị theo `Asia/Ho_Chi_Minh` ở frontend; thống kê theo ngày dùng múi giờ VN | Tránh lệch ngày khi thống kê "hôm nay" |
+| D15 | Chặn token của tài khoản bị khoá | Kiểm tra active + role mỗi request qua cache 30 giây, xoá cache khi admin sửa user | Hiệu lực ngay khi khoá mà không tốn 1 truy vấn DB cho mọi request; không cần danh sách đen token |
+| D16 | Thế nào là "production" để chặn secret mặc định | Coi `APP_SEED_DEMO=false` là production | `docker compose up` với `.env.example` vẫn chạy ngay cho demo; triển khai thật bắt buộc tắt demo nên bắt buộc đổi secret |
+| D17 | Xác minh `docker compose` trong sandbox | Dùng file override nằm ngoài repo để nạp CA của proxy sandbox khi build; file compose/Dockerfile trong repo giữ nguyên chuẩn | Sandbox chặn TLS trong container; người dùng và CI không cần các bước này |

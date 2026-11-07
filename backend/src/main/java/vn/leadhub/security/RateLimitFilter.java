@@ -34,6 +34,11 @@ public class RateLimitFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
       throws ServletException, IOException {
     boolean isLead = req.getRequestURI().equals("/api/public/leads");
+    // Không có Content-Length (chunked) → không kiểm soát được kích thước → từ chối
+    if (isLead && req.getContentLengthLong() < 0 && req.getHeader("Transfer-Encoding") != null) {
+      write(res, 411, ApiError.of(411, "LENGTH_REQUIRED", "Thiếu Content-Length"));
+      return;
+    }
     if (isLead && req.getContentLengthLong() > MAX_PUBLIC_BODY) {
       write(res, 413, ApiError.of(413, "PAYLOAD_TOO_LARGE", "Dữ liệu gửi lên quá lớn"));
       return;

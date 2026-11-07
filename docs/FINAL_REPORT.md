@@ -1,89 +1,66 @@
-# FINAL REPORT — LeadHub MVP (bàn giao giữa chừng)
+# FINAL REPORT — LeadHub MVP
 
-> Ngày 05/11/2026 · Nhánh `feature/mvp` · PR: https://github.com/Ducpham04/landing-templates/pull/1 (Draft)
+> Ngày 07/11/2026 · Nhánh `feature/mvp` · PR: https://github.com/Ducpham04/landing-templates/pull/1
 
-## 1. Đã làm xong
+## 1. Đã làm
 
 ### Sản phẩm
-**3 landing page + LeadHub (backend + admin)**. Lead từ form landing đổ về một nơi, được giao cho tư vấn viên và theo dõi tới khi chốt.
+Gói **"Landing page + CRM mini"**: khách điền form trên landing, lead về LeadHub, tư vấn viên nhận và xử lý tới khi chốt, quản trị theo dõi bằng dashboard.
 
-| Phần | Trạng thái | Ghi chú |
-| --- | --- | --- |
-| 3 landing (BĐS, Nội thất, Giáo dục) | ✅ | Prerender, SEO/OG, Lighthouse ≥ 94, đã rà bằng impeccable; gửi lead qua `VITE_LEAD_ENDPOINT` |
-| Backend Spring Boot 3.5 / Java 21 / MySQL 8.4 / Flyway | ✅ | Đã chạy thật với MySQL và seed demo; smoke test toàn bộ API bằng curl |
-| Auth JWT (access 15', refresh 7 ngày, rotation, logout thu hồi) | ✅ | |
-| Phân quyền ADMIN / SALES + phạm vi dữ liệu SALES | ✅ | Lead ngoài phạm vi trả 404 |
-| API public nhận lead (validate tiếng Việt, honeypot, rate limit 10/phút/IP, body ≤ 16KB, CORS) | ✅ | |
-| Lead: lọc, tìm, phân trang, trạng thái, giao/nhận, ghi chú, lịch sử, CSV | ✅ | |
-| Dashboard, quản lý landing (site key), quản lý nhân viên | ✅ | |
-| Admin SPA (React Query, Router, RHF, Zod, Tailwind), mobile-first | ✅ | Kiểm tra bằng Playwright ở 1440px và 390px, không lỗi console, không tràn ngang |
-| Seed demo: 4 tài khoản, 3 landing, 64 lead tiếng Việt rải 14 ngày | ✅ | |
-| Docker: Dockerfile backend, Dockerfile frontend + nginx, docker-compose, .env.example | ✅ viết xong / ⚠️ chưa chạy trọn | Xem §3 |
-| Test | ✅ 48 backend (unit + Testcontainers) · 5 frontend | Tất cả pass |
-| Tài liệu | ✅ PRD, DESIGN, ARCHITECTURE, DECISIONS, CHECKLIST | |
+| Phần | Kết quả |
+| --- | --- |
+| 3 landing (BĐS, Nội thất, Giáo dục) | Prerender, SEO/OG, Lighthouse mobile ≥ 94, rà bằng impeccable; form gửi lead qua `VITE_LEAD_ENDPOINT`, có honeypot |
+| Backend Spring Boot 3.5 / Java 21 / MySQL 8.4 / Flyway | Auth JWT (access/refresh xoay vòng), ADMIN/SALES + phạm vi dữ liệu, API public chống spam, lead (lọc, trạng thái, giao/nhận, ghi chú, lịch sử, CSV), dashboard, landing, nhân viên, OpenAPI |
+| Admin React (React Query, Router, RHF, Zod, Tailwind) | Mobile-first, tiếng Việt; dashboard, danh sách/chi tiết lead, landing, nhân viên; tự refresh token |
+| DevOps | Dockerfile backend/frontend, nginx (CSP, proxy `/api`), `docker-compose.yml` (6 service), `.env.example`, GitHub Actions (backend → frontend → e2e) |
+| Seed demo | 4 tài khoản, 3 landing (site key cố định), 64 lead tiếng Việt rải 14 ngày |
+| Tài liệu | README, PRD, DESIGN, ARCHITECTURE (ERD, API, phân quyền), DECISIONS (D1–D17), CHECKLIST, TEST_PLAN, REVIEW, FINAL_REPORT |
 
-### Tài khoản demo (khi `APP_SEED_DEMO=true`)
-| Vai trò | Email | Mật khẩu |
-| --- | --- | --- |
-| Quản trị | admin@leadhub.vn | Admin@123 |
-| Tư vấn viên | minh.tran@leadhub.vn | Sales@123 |
-| Tư vấn viên | thu.le@leadhub.vn | Sales@123 |
-| Bị khoá (để test) | hoang.pham@leadhub.vn | Sales@123 |
+### Kiểm thử (lần chạy 07/11/2026)
+| Bộ | Kết quả |
+| --- | --- |
+| Backend unit + integration (Testcontainers MySQL 8.4) | **51/51 pass** |
+| Frontend unit (Vitest) | **5/5 pass** |
+| E2E Playwright trên `docker compose` (desktop + Pixel 7) | **4/4 pass**: landing → admin → nhận → đổi trạng thái → ghi chú → admin thấy kết quả; phân quyền; đăng nhập sai; nút Gọi/Zalo trên mobile |
+| `docker compose up` từ DB trống | 6/6 service healthy |
+| `npm run build` (admin + 3 landing) | pass |
 
-Site key demo: `site_aurelia_demo_2026`, `site_atelier_demo_2026`, `site_nova_demo_2026`.
+### Review (chi tiết `docs/REVIEW.md`)
+Đã sửa: chặn secret JWT mặc định ở production; tài khoản bị khoá mất quyền ngay (không chờ token hết hạn); honeypot ở landing; từ chối body chunked ở API public; `leadCount` trả sai khi sửa landing.
 
-### Cách chạy (đã kiểm chứng)
-```bash
-docker run -d --name lh-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=leadhub -e MYSQL_USER=leadhub -e MYSQL_PASSWORD=leadhub -p 3306:3306 mysql:8.4
-cd backend && mvn package -DskipTests && APP_SEED_DEMO=true java -jar target/leadhub-backend-1.0.0.jar
-npm install && npm run dev -w apps/admin          # http://localhost:5173 (proxy /api → :8080)
-cd backend && mvn test                            # 48 test, cần Docker cho Testcontainers
-npm test -w apps/admin
-```
+### Tài khoản demo
+`admin@leadhub.vn / Admin@123` (quản trị) · `minh.tran@leadhub.vn / Sales@123`, `thu.le@leadhub.vn / Sales@123` (tư vấn viên) · `hoang.pham@leadhub.vn` (đã khoá).
 
-## 2. Chưa làm / làm dở
+## 2. Chưa làm (ngoài phạm vi MVP)
+- Thông báo lead mới qua Zalo OA / Telegram / email.
+- Chia lead tự động, nhắc gọi lại, SLA lead quá hạn.
+- Quên mật khẩu qua email, 2FA, đổi mật khẩu tự phục vụ. Hiện quản trị tạo mật khẩu tạm.
+- Multi-tenant, webhook ra ngoài, Facebook Lead Ads.
+- Màn hình tạo tài khoản quản trị đầu tiên khi DB trống. Hiện dùng seed demo rồi khoá tài khoản demo (README §Deploy).
 
-| Hạng mục | Trạng thái | Việc cụ thể còn lại |
-| --- | --- | --- |
-| `docker compose up` toàn bộ | Làm dở | Chạy trên máy có Internet thường và xác nhận 6 service healthy (xem §3) |
-| GitHub Actions CI | Chưa làm | `ci.yml`: job backend `mvn -B verify` (runner ubuntu có Docker cho Testcontainers); job frontend `npm ci`, `npm run build`, `npm test -w apps/admin` |
-| docs/TEST_PLAN.md | Chưa làm | Ma trận test theo user story trong PRD (đã có test tương ứng ở `backend/src/test`) |
-| E2E Playwright | Chưa làm | `apps/admin/e2e/lead-flow.spec.ts`: POST lead public → login SALES → mở lead → "Nhận xử lý" → đổi "Đã liên hệ" → thêm ghi chú → kiểm tra lịch sử |
-| README phần LeadHub | Chưa làm | Hiện README chỉ mô tả landing; nội dung có sẵn ở báo cáo này + ARCHITECTURE |
-| Review bảo mật/hiệu năng vòng cuối | Làm dở | Xem §4 |
-
-## 3. Lỗi / vấn đề đã biết
-
-1. **Build image backend trong sandbox thất bại (môi trường, không phải lỗi code).** Sandbox đi qua proxy chặn TLS, nên Maven bên trong container báo `PKIX path building failed`. Ảnh admin đã build được. Trên máy hay CI thông thường thì không gặp lỗi này. Cần chạy lại `docker compose up -d --build` ở môi trường thật để xác nhận.
-2. **Admin dev qua Vite proxy phải giữ `changeOrigin: false`.** Nếu đổi Host, Spring coi request là cross-origin và trả 403 CORS. Đã sửa; production đi qua nginx với `Host $http_host`.
-3. **JWT chưa kiểm tra lại trạng thái user mỗi request.** Một user bị khoá vẫn dùng được access token còn hạn, tối đa 15 phút; refresh thì đã bị chặn. Chấp nhận trong MVP.
-4. **Rate limit lưu trong bộ nhớ**, nên chỉ đúng khi chạy 1 instance (DECISIONS D9).
-5. **Refresh token lưu trong `localStorage`** (D8): có rủi ro nếu bị XSS. Đã có CSP chặt ở nginx; nên chuyển sang cookie HttpOnly.
-6. **PATCH site trả `leadCount = 0`**: frontend tự tải lại danh sách nên không hiển thị sai, nhưng API chưa chuẩn.
-7. **Landing gửi lead kèm `page` URL**; UTM được tách từ URL đó ở backend. Landing chưa có trường honeypot ẩn, tuy backend đã hỗ trợ trường `website`.
+## 3. Lỗi và hạn chế đã biết
+1. **Refresh token lưu trong `localStorage`** (D8). Giảm thiểu bằng CSP chặt; nên chuyển sang cookie HttpOnly.
+2. **Rate limit trong bộ nhớ**: chỉ đúng khi chạy 1 instance. Phía sau reverse proxy cần cấu hình `X-Forwarded-For` đúng.
+3. **Chưa phát hiện tái sử dụng refresh token** (thu hồi cả chuỗi). Token cũ vẫn đã bị thu hồi khi xoay.
+4. **Swagger mở mặc định**: tắt bằng biến môi trường (README).
+5. **CI chưa chạy xong lần nào trên GitHub tại thời điểm viết.** Các bước trong `ci.yml` đã chạy tay trong sandbox và đều pass, nhưng xem kết quả trên PR để chắc chắn.
+6. **Sandbox**: muốn build image trong môi trường có proxy chặn TLS phải nạp CA (D17). Máy và CI thông thường không cần.
+7. Ảnh Unsplash ở landing không tải được trong sandbox nên ảnh chụp kiểm tra chỉ có nền thay thế; trên Internet thật ảnh hiển thị bình thường.
 
 ## 4. Rủi ro
-
 | Rủi ro | Mức | Giảm thiểu |
 | --- | --- | --- |
-| Spam form landing (site key công khai) | Trung bình | Đã có honeypot + rate limit + validate; sau MVP thêm Turnstile/reCAPTCHA |
-| Scale nhiều instance | Thấp (khách nhỏ) | Chuyển rate limit sang Redis/Bucket4j |
-| Lộ secret mặc định | Cao nếu quên đổi | `.env.example` ghi rõ; nên thêm kiểm tra chặn khởi động khi `JWT_SECRET` là giá trị mặc định ở profile prod |
-| Chưa có CI | Trung bình | Mục đầu tiên của bước tiếp theo |
+| Spam form (site key công khai) | Trung bình | Honeypot + rate limit + validate + giới hạn body; bản 1.1 thêm Turnstile |
+| Quên đổi secret/mật khẩu DB khi triển khai | Cao → Thấp | Backend từ chối khởi động với secret mặc định khi tắt demo; README nhấn mạnh |
+| Mở rộng nhiều instance | Thấp (khách nhỏ) | Rate limit sang Redis/Bucket4j; user-status cache sang Redis |
+| Dữ liệu cá nhân khách hàng (SĐT, email) | Trung bình | Phân quyền theo phạm vi, HTTPS bắt buộc khi deploy, backup volume MySQL; cần thông báo bảo mật trên landing theo Nghị định 13/2023 |
 
-## 5. Bước tiếp theo cụ thể (ước lượng)
-1. Chạy `docker compose up -d --build`, mở :3000, :5101–:5103, gửi form thật → kiểm tra lead xuất hiện (0,5 giờ).
-2. Thêm `.github/workflows/ci.yml` (1 giờ).
-3. TEST_PLAN.md + e2e Playwright luồng chính (2 giờ).
-4. README phần LeadHub + ảnh chụp màn hình (1 giờ).
-5. Sửa các mục 3, 5, 6, 7 ở §3 và chặn secret mặc định ở prod (2 giờ).
-6. Chuyển PR sang Ready for review.
-
-### Đề xuất phiên bản 1.1
-- Thông báo lead mới qua Zalo OA / Telegram / email (giá trị cao nhất với khách).
-- Chia lead tự động xoay vòng + nhắc gọi lại / SLA lead quá hạn.
-- Cookie HttpOnly cho refresh token, Turnstile cho form.
-- Multi-tenant, để 1 hệ thống phục vụ nhiều khách của freelancer.
+## 5. Đề xuất phiên bản tiếp theo (1.1)
+1. Thông báo lead mới qua Zalo OA / Telegram (giá trị cao nhất với khách: phản hồi trong 5 phút).
+2. Chia lead xoay vòng + nhắc gọi lại + cảnh báo lead quá 30 phút chưa liên hệ.
+3. Cookie HttpOnly cho refresh token, Turnstile cho form, quên mật khẩu.
+4. Báo cáo theo nguồn UTM và theo nhân viên (tỉ lệ chốt, thời gian phản hồi).
+5. Multi-tenant để freelancer dùng 1 hệ thống cho nhiều khách (mô hình thuê bao).
 
 ## 6. Gợi ý giá bán (thị trường VN, tham khảo)
 | Gói | Nội dung | Giá đề xuất |

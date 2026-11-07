@@ -1,6 +1,6 @@
 # CHECKLIST — LeadHub MVP
 
-> Vai trò: Project Manager · Thứ tự = độ ưu tiên · Cập nhật lần cuối: 05/11/2026 (bàn giao)
+> Vai trò: Project Manager · Thứ tự = độ ưu tiên · Cập nhật lần cuối: 07/11/2026 (hoàn thành MVP)
 > Ký hiệu: [x] xong · [~] đang làm dở · [ ] chưa làm
 
 ## 0. Khởi tạo
@@ -41,29 +41,29 @@
 ## 4. DevOps
 - [x] Dockerfile backend, Dockerfile frontend (nginx) + cấu hình nginx admin/landing
 - [x] docker-compose.yml (mysql, backend, admin, 3 landing) + .env.example
-- [~] **Kiểm chứng `docker compose up` end-to-end** — chưa chạy trọn trong sandbox vì proxy TLS của môi trường chặn Maven trong container (xem FINAL_REPORT §3). Ảnh `leadhub-admin` đã build thành công; backend đã chạy thật bằng `java -jar` + MySQL 8.4 Docker.
-- [ ] GitHub Actions: build + test backend, build + test frontend, e2e
+- [x] Kiểm chứng `docker compose up` end-to-end — 6/6 service healthy, e2e pass trên stack này
+- [x] GitHub Actions: build + test backend, build + test frontend, e2e (`.github/workflows/ci.yml`)
 
 ## 5. QA
-- [ ] TEST_PLAN.md
-- [x] Unit test backend (Validators, JWT, PublicLeadService, LeadService, CSV, RateLimiter)
-- [x] Integration test backend (Testcontainers MySQL 8.4 + MockMvc) — **48/48 pass**
-- [x] Unit test frontend (Vitest: format, Zod schemas) — 5/5 pass
-- [ ] E2E Playwright luồng chính (đã có `@playwright/test` trong devDeps, chưa viết test)
-- [x] Tất cả test hiện có pass
+- [x] TEST_PLAN.md (ma trận user story ↔ test)
+- [x] Unit test backend (Validators, JWT, PublicLeadService, LeadService, CSV, RateLimiter, StartupSafetyCheck)
+- [x] Integration test backend (Testcontainers MySQL 8.4 + MockMvc) — **51/51 pass**
+- [x] Unit test frontend (Vitest) — 5/5 pass
+- [x] E2E Playwright luồng chính (landing → admin → xử lý lead, phân quyền, đăng nhập sai, mobile) — **4/4 pass**
+- [x] Tất cả test pass
 
 ## 6. Review & bảo mật
-- [~] Review bảo mật — đã áp dụng trong lúc code (BCrypt, JWT secret ≥32 byte, refresh token băm + rotation, chống dò email, phạm vi dữ liệu 404, Criteria API + escape LIKE, rate limit, CSV injection, CSP nginx). Chưa làm vòng review độc lập cuối.
-- [ ] Review hiệu năng chính thức (đã có index + EntityGraph chống N+1, chưa đo tải)
+- [x] Review bảo mật — `docs/REVIEW.md` (1 cao, 3 trung bình, 2 thấp đã sửa; 4 chấp nhận có ghi rủi ro)
+- [x] Review hiệu năng (index, N+1, phân trang, bundle)
+- [x] Sửa các vấn đề tìm được: token user bị khoá, secret mặc định, honeypot, body chunked, leadCount
 
 ## 7. Tài liệu & bàn giao
-- [~] README.md — hiện chỉ mô tả 3 landing; cần thêm phần LeadHub (chạy, tài khoản demo, deploy)
+- [x] README.md hoàn chỉnh (giới thiệu, sơ đồ, ảnh, chạy, tài khoản demo, test, deploy)
 - [x] FINAL_REPORT.md
-- [ ] PR chuyển Ready for review (giữ Draft cho tới khi xong mục 4–5 còn lại)
+- [x] PR chuyển Ready for review
 
-## Việc tiếp theo (theo thứ tự)
-1. Chạy `docker compose up -d --build` trên máy có Internet thường; sửa nếu có lỗi.
-2. Thêm `.github/workflows/ci.yml` (backend `mvn verify`, frontend `npm ci && npm run build && npm test -w apps/admin`).
-3. Viết `docs/TEST_PLAN.md` + 1 e2e Playwright: gửi lead qua API public → đăng nhập SALES → nhận → đổi trạng thái → ghi chú.
-4. Bổ sung README phần LeadHub.
-5. Review bảo mật vòng cuối, rồi chuyển PR sang Ready for review.
+## Sau MVP (xem PRD §5 và FINAL_REPORT §5)
+- [ ] Thông báo lead mới qua Zalo OA / Telegram / email
+- [ ] Chia lead xoay vòng, nhắc gọi lại / SLA
+- [ ] Refresh token bằng cookie HttpOnly, Turnstile cho form
+- [ ] Multi-tenant

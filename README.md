@@ -1,14 +1,134 @@
-# Landing Templates — 3 mẫu landing page cao cấp
+# Landing + LeadHub — landing page cao cấp kèm CRM mini
 
-Bộ 3 landing page demo cho dịch vụ freelance, mỗi mẫu có phong cách thị giác riêng.
+Gói sản phẩm cho dịch vụ freelance:
+
+1. **3 landing page cao cấp** (Bất động sản, Nội thất, Giáo dục). Toàn bộ nội dung nằm trong 1 file config; prerender sẵn, SEO/Open Graph đầy đủ, Lighthouse mobile ≥ 94.
+2. **LeadHub**: backend và trang quản trị nhận lead từ form landing, giao cho tư vấn viên, theo dõi trạng thái tới khi chốt, có dashboard và xuất CSV.
+
+```mermaid
+flowchart LR
+  V[Khách truy cập] -->|điền form| L[Landing<br/>BĐS · Nội thất · Giáo dục]
+  L -->|POST /api/public/leads?siteKey=…| API[LeadHub API<br/>Spring Boot 3.5 · Java 21]
+  API --> DB[(MySQL 8.4)]
+  S[Tư vấn viên / Quản trị] -->|điện thoại / máy tính| A[LeadHub Admin<br/>React] -->|JWT| API
+```
+
+| Dashboard | Chi tiết lead |
+| --- | --- |
+| ![Dashboard LeadHub](docs/images/admin-dashboard.webp) | ![Chi tiết lead](docs/images/admin-lead-detail.webp) |
+
+![Admin trên điện thoại: đăng nhập, danh sách lead, chi tiết](docs/images/admin-mobile.webp)
+
+## Chạy nhanh toàn bộ (Docker)
+
+Yêu cầu: Docker Engine 24+ có Docker Compose v2.
+
+```bash
+cp .env.example .env
+```
+
+```bash
+docker compose up -d --build --wait
+```
+
+| Dịch vụ | URL |
+| --- | --- |
+| LeadHub Admin | http://localhost:3000 |
+| API + Swagger | http://localhost:8080/swagger-ui.html |
+| Landing Bất động sản | http://localhost:5101 |
+| Landing Nội thất | http://localhost:5102 |
+| Landing Giáo dục | http://localhost:5103 |
+
+Gửi form trên một landing bất kỳ, rồi đăng nhập admin: lead mới hiện ở đầu danh sách.
+
+### Tài khoản demo
+
+Chỉ có khi `APP_SEED_DEMO=true`, là giá trị mặc định trong `.env.example`.
+
+| Vai trò | Email | Mật khẩu | Quyền |
+| --- | --- | --- | --- |
+| Quản trị | `admin@leadhub.vn` | `Admin@123` | Tất cả: lead, giao việc, landing, nhân viên, xuất CSV |
+| Tư vấn viên | `minh.tran@leadhub.vn` | `Sales@123` | Lead của mình và lead chưa có người nhận |
+| Tư vấn viên | `thu.le@leadhub.vn` | `Sales@123` | như trên |
+| Đã bị khoá | `hoang.pham@leadhub.vn` | `Sales@123` | Không đăng nhập được (để thử) |
+
+## LeadHub — tính năng
+
+- **Nhận lead từ landing:** API public kiểm tra dữ liệu (thông báo lỗi tiếng Việt), chuẩn hoá SĐT Việt Nam, tự tách UTM từ URL trang, lưu các trường riêng của từng landing (loại căn, ngân sách, khoá học…). Chống spam bằng honeypot, giới hạn 10 lead/phút/IP và giới hạn kích thước body.
+- **Quản lý lead:** lọc theo trạng thái, landing, người phụ trách, ngày; tìm theo tên/SĐT/email. Bộ lọc lưu trên URL nên chia sẻ link được.
+- **Xử lý lead:** 5 trạng thái (Mới → Đã liên hệ → Tiềm năng → Đã chốt / Thất bại), giao hoặc nhận lead, ghi chú, lịch sử thay đổi. Trên điện thoại có nút Gọi và Zalo ngay ở danh sách.
+- **Phân quyền:** ADMIN thấy tất cả; SALES chỉ thấy lead của mình và lead chưa giao. Lead ngoài phạm vi trả 404.
+- **Dashboard:** tổng lead, lead mới hôm nay, đang chăm sóc, tỉ lệ chốt, biểu đồ 14 ngày, thống kê theo trạng thái và theo landing.
+- **Quản trị:** landing (site key, tạo lại key, bật/tắt), nhân viên (tạo, đổi vai trò, khoá). Khoá tài khoản thì phiên đăng nhập bị chặn ngay.
+- **Xuất CSV:** mở bằng Excel đúng tiếng Việt, chống CSV injection.
+
+Tài liệu chi tiết: [PRD](docs/PRD.md) · [Thiết kế](docs/DESIGN.md) · [Kiến trúc, ERD, API](docs/ARCHITECTURE.md) · [Quyết định](docs/DECISIONS.md) · [Kế hoạch test](docs/TEST_PLAN.md) · [Báo cáo](docs/FINAL_REPORT.md)
+
+## Phát triển (không dùng Docker cho app)
+
+Cần Java 21, Maven 3.9, Node 20+, Docker (để chạy MySQL và Testcontainers).
+
+```bash
+docker run -d --name leadhub-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=leadhub -e MYSQL_USER=leadhub -e MYSQL_PASSWORD=leadhub mysql:8.4
+```
+
+```bash
+cd backend && APP_SEED_DEMO=true mvn spring-boot:run
+```
+
+```bash
+npm install && npm run dev -w apps/admin
+```
+
+Admin dev chạy ở http://localhost:5173, Vite proxy `/api` sang `:8080`. Để landing gửi lead về backend local:
+
+```bash
+VITE_LEAD_ENDPOINT="http://localhost:8080/api/public/leads?siteKey=site_nova_demo_2026" npm run dev:education
+```
+
+### Chạy test
+
+```bash
+cd backend && mvn verify
+```
+
+```bash
+npm test -w apps/admin
+```
+
+```bash
+docker compose up -d --build --wait && cd apps/admin && npx playwright test
+```
+
+Lệnh đầu chạy 51 test backend (unit + integration với MySQL thật qua Testcontainers). Lệnh thứ hai chạy unit test frontend. Lệnh cuối chạy e2e trên stack Docker. CI chạy cả 3 bước tại `.github/workflows/ci.yml`.
+
+## Deploy LeadHub cho khách
+
+1. Thuê VPS (2 vCPU, 2–4GB RAM là đủ), cài Docker.
+2. Clone repo, `cp .env.example .env` và **bắt buộc đổi**:
+   - `JWT_SECRET`: tạo bằng `openssl rand -base64 48`. Backend từ chối khởi động với secret mặc định khi tắt demo.
+   - `MYSQL_PASSWORD`, `MYSQL_ROOT_PASSWORD`.
+   - `APP_SEED_DEMO=false`.
+   - `PUBLIC_API_URL=https://api.ten-mien-khach.vn`
+   - `APP_CORS_PUBLIC_ORIGINS=https://ten-mien-landing.vn`
+3. Đặt reverse proxy có HTTPS (Caddy, Nginx + Certbot) trỏ `admin.…` → `:3000` và `api.…` → `:8080`.
+4. Chạy `docker compose up -d --build --wait`.
+5. Tạo tài khoản quản trị đầu tiên. Khi `APP_SEED_DEMO=false` thì DB trống; cách nhanh nhất là chạy 1 lần với `APP_SEED_DEMO=true`, đăng nhập, tạo tài khoản thật, khoá các tài khoản demo, rồi đặt lại `false`.
+6. Trong admin, vào **Landing** → thêm landing của khách → sao chép endpoint → build landing với `VITE_LEAD_ENDPOINT=<endpoint>`.
+
+Swagger (`/swagger-ui.html`) đang mở. Nếu không muốn công khai, đặt `SPRINGDOC_API_DOCS_ENABLED=false` và `SPRINGDOC_SWAGGER_UI_ENABLED=false`.
+
+---
+
+# Landing templates
+
+**Stack:** React 19 · Vite · TypeScript · Tailwind CSS v4 · Framer Motion (LazyMotion) · Prerender (SSG) lúc build.
 
 | Thư mục | Ngành | Phong cách | Font |
 | --- | --- | --- | --- |
 | `apps/real-estate` | Bất động sản cao cấp — *The Aurelia Residences* | Nền đen, nhấn vàng champagne, serif thanh mảnh, chữ in hoa giãn rộng | Cormorant Garamond + Be Vietnam Pro |
 | `apps/interior` | Thiết kế nội thất — *Atelier Mộc* | Kiểu tạp chí: nền vữa xám-xanh, nhấn đất nung, serif lớn, lưới bất đối xứng | Playfair Display + Inter |
 | `apps/education` | Trung tâm giáo dục — *Nova Academy* | Trẻ trung kiểu neobrutalist: viền đậm, bóng lệch, tím indigo + xanh chanh, bộ icon nét thống nhất | Lexend |
-
-**Stack:** React 19 · Vite · TypeScript · Tailwind CSS v4 · Framer Motion (LazyMotion) · Prerender (SSG) lúc build.
 
 ## Có những gì
 
@@ -72,7 +192,9 @@ Xem bản build: `cd apps/interior && npx vite preview`.
 
 ### Nhận dữ liệu form
 
-Đặt `form.endpoint` trong config. Nếu để trống, form chạy ở **chế độ demo**: báo gửi thành công nhưng không gửi dữ liệu đi đâu.
+Đặt biến build `VITE_LEAD_ENDPOINT` (hoặc sửa `form.endpoint` trong config). Nếu để trống, form chạy ở **chế độ demo**: báo gửi thành công nhưng không gửi dữ liệu đi đâu.
+
+- **LeadHub** (khuyến nghị): `https://api…/api/public/leads?siteKey=<key>`. Lấy endpoint ở trang **Landing** trong admin.
 
 - **Formspree:** tạo form tại formspree.io, rồi dán `https://formspree.io/f/xxxx`.
 - **Google Sheet:** tạo Google Apps Script `doPost(e)` ghi `JSON.parse(e.postData.contents)` vào sheet, deploy dạng Web App (Anyone), rồi dán URL `https://script.google.com/macros/s/.../exec`.

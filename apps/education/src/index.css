@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: var(--c-primary);
+  --color-lime: var(--c-accent);
+  --color-coral: var(--c-accent-strong);
+  --color-bg: var(--c-background);
+  --color-surface: var(--c-surface);
+  --color-ink: var(--c-text);
+  --color-muted: var(--c-muted);
+  --font-display: "Lexend", system-ui, sans-serif;
+  --font-sans: "Lexend", system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body { @apply bg-bg text-ink font-sans antialiased; }
+h1, h2, h3 { @apply font-display tracking-tight; text-wrap: balance; }
+p, li, dd, blockquote { text-wrap: pretty; }
+:focus-visible { outline: 3px solid var(--c-primary); outline-offset: 3px; }
+.tabular-nums { font-variant-numeric: tabular-nums; }
+/* Bóng lệch cứng (pop) là chủ ý: hướng thị giác neobrutalist của template này. */
+::selection { background: var(--c-accent); color: var(--c-text); }
+
+/* Viền đậm + bóng lệch — chữ ký thị giác của template này */
+@utility pop { border: 2px solid var(--c-text); box-shadow: 5px 5px 0 var(--c-text); }
+@utility pop-hover {
+  transition: transform .2s, box-shadow .2s;
+  &:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--c-text); }
+}
+.marker { background: linear-gradient(transparent 58%, var(--c-accent) 58%, var(--c-accent) 92%, transparent 92%); padding: 0 .1em; }
+.img-fallback { background: linear-gradient(135deg, #c7d2fe, #a5b4fc 50%, #d9f99d); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* Lớp component: nằm trong layer để utility (hidden, md:flex, ...) ghi đè được */
+@layer components {
+  .btn-primary {
+    @apply pop pop-hover inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-4 font-display font-semibold text-white;
+  }
+  .btn-light {
+    @apply pop pop-hover inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 font-display font-semibold;
+  }
+  .inp {
+    @apply w-full rounded-2xl border-2 border-ink/15 bg-white px-4 py-3.5 outline-none transition placeholder:text-muted focus:border-primary focus:ring-4 focus:ring-primary/15;
+  }
+}

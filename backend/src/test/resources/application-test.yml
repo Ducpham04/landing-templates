@@ -1,0 +1,9 @@
+app:
+  seed:
+    demo: true
+  jwt:
+    secret: integration-test-secret-integration-test-secret
+logging:
+  level:
+    org.testcontainers: WARN
+    com.github.dockerjava: WARN

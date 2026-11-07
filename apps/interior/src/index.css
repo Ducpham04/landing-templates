@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: var(--c-primary);
+  --color-primary-on-dark: var(--c-primary-on-dark);
+  --color-olive: var(--c-secondary);
+  --color-bg: var(--c-background);
+  --color-surface: var(--c-surface);
+  --color-ink: var(--c-text);
+  --color-muted: var(--c-muted);
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter Variable", system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body { @apply bg-bg text-ink font-sans antialiased; }
+h1, h2, h3 { text-wrap: balance; }
+p, li, dd, blockquote { text-wrap: pretty; }
+:focus-visible { outline: 2px solid var(--c-primary); outline-offset: 3px; }
+.tabular-nums { font-variant-numeric: tabular-nums; }
+::selection { background: var(--c-primary); color: var(--c-background); }
+
+.img-fallback { background: linear-gradient(135deg, #c9cec2, #a9b0a2 60%, #7f877a); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* Lớp component: nằm trong layer để utility (hidden, md:flex, ...) ghi đè được */
+@layer components {
+  .label { @apply text-xs font-medium tracking-[0.18em] uppercase text-muted; }
+  .btn-ink {
+    @apply inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 text-sm font-medium text-bg transition-all duration-300 hover:bg-primary;
+  }
+  .btn-line {
+    @apply inline-flex items-center gap-3 rounded-full border border-ink/25 px-7 py-4 text-sm font-medium transition-all duration-300 hover:border-ink hover:bg-ink hover:text-bg;
+  }
+  .input {
+    @apply w-full rounded-none border-0 border-b border-ink/25 bg-transparent px-0 py-3 text-base outline-none transition-colors placeholder:text-muted focus:border-primary;
+  }
+}

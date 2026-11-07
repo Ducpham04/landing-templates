@@ -1,0 +1,95 @@
+# Chạy toàn bộ: docker compose up -d --build
+# Admin: http://localhost:3000 · API: http://localhost:8080/swagger-ui.html
+# Landing: :5101 (BĐS) · :5102 (Nội thất) · :5103 (Giáo dục)
+name: leadhub
+
+x-landing: &landing
+  restart: unless-stopped
+  depends_on:
+    backend:
+      condition: service_healthy
+
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change-me-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-leadhub}
+      MYSQL_USER: ${MYSQL_USER:-leadhub}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-change-me-leadhub}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-leadhub}?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+      DB_USERNAME: ${MYSQL_USER:-leadhub}
+      DB_PASSWORD: ${MYSQL_PASSWORD:-change-me-leadhub}
+      JWT_SECRET: ${JWT_SECRET:-change-me-to-a-long-random-secret-at-least-32-chars}
+      APP_SEED_DEMO: ${APP_SEED_DEMO:-true}
+      APP_CORS_PUBLIC_ORIGINS: ${APP_CORS_PUBLIC_ORIGINS:-*}
+    ports:
+      - "${API_PORT:-8080}:8080"
+
+  admin:
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+      args:
+        APP: admin
+        NGINX_CONF: admin.conf
+        VITE_PUBLIC_API_ORIGIN: ${PUBLIC_API_URL:-http://localhost:8080}
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${ADMIN_PORT:-3000}:80"
+
+  landing-real-estate:
+    <<: *landing
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+      args:
+        APP: real-estate
+        VITE_LEAD_ENDPOINT: ${PUBLIC_API_URL:-http://localhost:8080}/api/public/leads?siteKey=site_aurelia_demo_2026
+    ports:
+      - "${LANDING_REAL_ESTATE_PORT:-5101}:80"
+
+  landing-interior:
+    <<: *landing
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+      args:
+        APP: interior
+        VITE_LEAD_ENDPOINT: ${PUBLIC_API_URL:-http://localhost:8080}/api/public/leads?siteKey=site_atelier_demo_2026
+    ports:
+      - "${LANDING_INTERIOR_PORT:-5102}:80"
+
+  landing-education:
+    <<: *landing
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+      args:
+        APP: education
+        VITE_LEAD_ENDPOINT: ${PUBLIC_API_URL:-http://localhost:8080}/api/public/leads?siteKey=site_nova_demo_2026
+    ports:
+      - "${LANDING_EDUCATION_PORT:-5103}:80"
+
+volumes:
+  mysql-data:
